@@ -1,0 +1,20 @@
+export const GET_USERS = 'GET_USERS';
+export const GET_USERS_OVERVIEW = 'GET_USERS_OVERVIEW';
+export const GET_ADMIN_SHOW_USER = 'GET_ADMIN_SHOW_USER';
+
+//
+export const GET_ADMIN_OVERVIEW = 'GET_ADMIN_OVERVIEW';
+export const GET_SEARCH_USERS = 'GET_SEARCH_USERS';
+
+export const GET_HARBOURS = 'GET_HARBOURS';
+export const GET_SHIPS = 'GET_SHIPS';
+export const GET_SINGLE_SHIPS = 'GET_SINGLE_SHIPS';
+export const GET_SEARCH_SHIPS = 'GET_SEARCH_SHIPS';
+
+export const GET_CARGOES = 'GET_CARGOES';
+export const GET_SINGLE_CARGO = 'GET_SINGLE_CARGO';
+
+export const GET_ORDERS = 'GET_ORDERS';
+
+export const GET_TRACKS = 'GET_TRACKS';
+export const GET_SINGLE_TRACK = 'GET_SINGLE_TRACK';

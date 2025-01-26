@@ -1,0 +1,24 @@
+@font-face {
+  font-family: 'CircularStd';
+  font-weight: 400;
+  font-style: normal;
+  src: local('CircularStd'), url('Poppins-Regular.ttf') format('opentype');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 500;
+  font-style: normal;
+  src: local('Poppins'), url('Poppins-Medium.ttf') format('opentype');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-style: normal;
+  src: local('Poppins'), url('Poppins-SemiBold.ttf') format('opentype');
+}
+@font-face {
+  font-family: 'Poppins';
+  font-weight: 700;
+  font-style: normal;
+  src: local('Poppins'), url('Poppins-ExtraBold.ttf') format('opentype');
+}
