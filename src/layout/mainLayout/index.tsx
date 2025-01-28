@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import Sidebar from './Sidebar';
 import Header from './Header';
 
-const drawerWidth = 280;
+const drawerWidth = 272;
 const headerHeight = 80;
 interface Props {
   children: ReactNode;

@@ -32,7 +32,7 @@ const MenuItemStyled = styled(ListItemButton)({
     backgroundColor: '#F1F8FF',
     color: '#376DA4',
     borderRadius: '8px',
-    padding: '16px',
+    margin: '0',
     '&:hover': {
       backgroundColor: '#F1F8FF',
       color: '#376DA4',
@@ -68,7 +68,7 @@ const MenuItem = ({ icon, activeIcon, title, path, subMenu }: MenuItemType) => {
     <>
       {subMenu ? (
         <>
-          <ListItem>
+          <ListItem sx={{ p: 0, pb: 8 }}>
             <MenuItemStyled
               onClick={() => setOpen((prev) => !prev)}
               selected={isActive}
@@ -76,7 +76,11 @@ const MenuItem = ({ icon, activeIcon, title, path, subMenu }: MenuItemType) => {
               <Icon icon={isActive ? activeIcon : icon} />
               <ListItemText
                 sx={{ pl: 1.5 }}
-                primary={<Typography variant="subtitle1">{title}</Typography>}
+                primary={
+                  <Typography variant="h6" component="h3" ml={2}>
+                    {title}
+                  </Typography>
+                }
                 disableTypography
               />
 
@@ -87,7 +91,7 @@ const MenuItem = ({ icon, activeIcon, title, path, subMenu }: MenuItemType) => {
             <List disablePadding>
               {subMenu?.map(({ path, title }, index) => (
                 <Link href={path} key={path}>
-                  <ListItem sx={{ py: 0 }}>
+                  <ListItem sx={{ p: 0 }}>
                     <SubMenuStyled selected={router.pathname === path}>
                       <ListItemIcon>
                         <Brightness1
@@ -95,7 +99,11 @@ const MenuItem = ({ icon, activeIcon, title, path, subMenu }: MenuItemType) => {
                         />
                       </ListItemIcon>
                       <ListItemText
-                        primary={<Typography>{title}</Typography>}
+                        primary={
+                          <Typography variant="h6" component="h3" ml={2}>
+                            {title}
+                          </Typography>
+                        }
                       />
                     </SubMenuStyled>
                   </ListItem>
@@ -106,7 +114,7 @@ const MenuItem = ({ icon, activeIcon, title, path, subMenu }: MenuItemType) => {
         </>
       ) : (
         <Link href={path}>
-          <ListItem>
+          <ListItem sx={{ p: 0, pb: 8 }}>
             <MenuItemStyled
               onClick={() => setOpen((prev) => !prev)}
               selected={isActive}
@@ -114,7 +122,7 @@ const MenuItem = ({ icon, activeIcon, title, path, subMenu }: MenuItemType) => {
               <Icon icon={isActive ? activeIcon : icon} />
               <ListItemText
                 sx={{ pl: 1.5 }}
-                primary={<Typography variant="subtitle1">{title}</Typography>}
+                primary={<Typography variant="h6" component='h3' ml={2}>{title}</Typography>}
                 disableTypography
               />
             </MenuItemStyled>
@@ -145,7 +153,7 @@ const Menu = ({ items }: { items: MenuItemType[] }) => {
           alt="logo"
         />
       </Toolbar>
-      <List sx={{ pt: 8 }}>
+      <List sx={{ pt: 21, px: 12 }}>
         {items.map(({ subMenu, icon, activeIcon, path, id, title }) => (
           <MenuItem
             key={id}

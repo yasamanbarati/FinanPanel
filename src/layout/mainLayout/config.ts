@@ -16,7 +16,7 @@ export const SidbarItems: MenuItemType[] = [
     icon: 'Overviwe',
     activeIcon: 'Overviwe2',
     title: 'Overview',
-    path: '/view',
+    path: '/',
   },
   {
     id: 1,

@@ -1,4 +1,5 @@
-import { Menu, Search } from '@mui/icons-material';
+import { SearchIcon } from '@/components/icons';
+import { Menu } from '@mui/icons-material';
 import {
   AppBar,
   IconButton,
@@ -9,11 +10,27 @@ import {
 } from '@mui/material';
 import React from 'react';
 //
-const StyledSearch = styled(OutlinedInput)({
-  padding: ' 12px, 16px, 12px, 16px',
-  border: '1px solid #E4E4E7',
+const StyledSearch = styled(OutlinedInput)(({ theme }) => ({
+  padding: '8px 16px',
+  paddingLeft: '0',
+  border: `1px solid ${theme.palette.black.light}`,
+  borderRadius: '12px',
+  width: '446px',
   height: '40px',
-});
+  display: 'flex',
+  gap: '8px',
+  '& .MuiInputAdornment-root': {
+    width: '20px',
+    '& .MuiButtonBase-root': {
+      padding: '8px 16px',
+      '& .MuiSvgIcon-root': {
+        width: '18px',
+        height: '18px',
+        fill: 'none',
+      },
+    },
+  },
+}));
 
 interface Props {
   openSidebar: () => void;
@@ -40,7 +57,7 @@ export default function Header({
     >
       <Toolbar
         sx={{
-          padding: '20px 32px',
+          padding: '20px 32px!important',
           borderBottom: '1px solid rgba(223, 234, 242, 0.5)',
         }}
       >
@@ -53,11 +70,12 @@ export default function Header({
           <Menu />
         </IconButton>
         <StyledSearch
-          placeholder="Search"
+          placeholder="Search transactions, contracts,etc..."
+          sx={{ pt: 5 }}
           startAdornment={
             <InputAdornment position="start">
               <IconButton>
-                <Search />
+                <SearchIcon />
               </IconButton>
             </InputAdornment>
           }
