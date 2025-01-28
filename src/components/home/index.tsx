@@ -20,17 +20,17 @@ export default function Home() {
             <IncomeCard key={index} {...item} />
           ))}
         </Grid>
-        <Grid item md={8}>
+        <Grid item xl={8} lg={7} xs={12}>
           <Card>
             <CardContent>
               <Typography variant="h3">Income Activity</Typography>
             </CardContent>
           </Card>
         </Grid>
-        <Grid item md={4}>
+        <Grid item xl={4} lg={5} xs={12}>
           <RecentTransactions users={USERS} />
         </Grid>
-        <Grid item md={12}>
+        <Grid item xs={12}>
           <UsersTable users={USERS} />
         </Grid>
       </Grid>
