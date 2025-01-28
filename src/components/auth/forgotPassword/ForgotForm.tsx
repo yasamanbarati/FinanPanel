@@ -2,12 +2,12 @@ import React from 'react';
 import { Divider, Stack, Typography } from '@mui/material';
 import { Form, Input, useForm } from '@/components/rhf';
 import { useMutation } from '@tanstack/react-query';
-import { forgotPassword } from '@/api/api.auth';
+import { forgotPassword } from '@/services/servers/api/api.auth';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useSetting } from '@/hook/useSetting';
+import { useSetting } from '@/services/servers/hook/useSetting';
 import { useRouter } from 'next/navigation';
-import { PATH } from '@/utils/constant';
+import { PATH } from '@/services/utils/constant';
 import { MButton } from '@/components/mui_extend';
 //==================================//
 export default function ForgotForm({

@@ -1,8 +1,8 @@
-import { forgotVerify } from '@/api/api.auth';
+import { forgotVerify } from '@/services/servers/api/api.auth';
 import { Link, OTPInput } from '@/components/common';
 import { MButton } from '@/components/mui_extend';
-import { useSetting } from '@/hook/useSetting';
-import { PATH } from '@/utils/constant';
+import { useSetting } from '@/services/servers/hook/useSetting';
+import { PATH } from '@/services/utils/constant';
 import { Divider, Stack, Typography } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import Image from 'next/image';

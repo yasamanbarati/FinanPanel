@@ -4,7 +4,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation } from '@tanstack/react-query';
-import { changePassword } from '@/api/api.auth';
+import { changePassword } from '@/services/servers/api/api.auth';
 import { MButton } from '@/components/mui_extend';
 //=======================================//
 export default function ChangePassForm({

@@ -1,5 +1,5 @@
-import axios from '@/utils/axios';
-import { API } from '@/utils/constant';
+import axios from '@/services/utils/axios';
+import { API } from '@/services/utils/constant';
 
 export const login = (data: any) =>
   axios.post(API.login, data).then((res) => res?.data);

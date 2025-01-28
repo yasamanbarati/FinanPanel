@@ -1,4 +1,4 @@
-import axios from '@/utils/axios';
+import axios from '@/services/utils/axios';
 // import { ADMIN_API } from '@/utils/constant';
 // import { useQuery } from '@tanstack/react-query';
 // import { GET_CARGOES, GET_SINGLE_CARGO } from './api.keys';
