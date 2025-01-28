@@ -46,12 +46,36 @@ const CardBox = styled(Card)(({ theme }) => ({
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
+      borderBottom: `0.6px solid ${theme.palette.borderBG}`,
     },
     '& a': {
       fontSize: '1rem', //16
       lineHeight: '20.16px',
       fontWeight: '600',
       textDecoration: 'underline',
+    },
+  },
+  '& table': {
+    minWidth: '600px',
+    '& .MuiTableCell-root': {
+      border: 0,
+      '& li': {
+        paddingLeft: 0,
+      },
+    },
+    '& thead th, .MuiListItemText-root span': {
+      fontSize: '1rem',
+      fontWeight: '600',
+      lineHeight: '20.16px',
+    },
+    '& .MuiListItemText-root p': {
+      fontSize: '0.75rem',
+      fontWeight: '500',
+      lineHeight: '15.12px',
+    },
+    '& tbody td': {
+      fontSize: '0.86rem',
+      lineHeight: '17.64px',
     },
   },
 }));
@@ -66,51 +90,52 @@ const UsersTable = ({ users }: Props) => {
           </Typography>
           <Link href={'/'}>See all</Link>
         </Stack>
-        <Divider />
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Full Name</TableCell>
-              <TableCell>Email Address</TableCell>
-              <TableCell>Wallet Balance</TableCell>
-              <TableCell>Contract Count</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {users.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell>
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar src={user.image} alt={user.name} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={user.name}
-                      secondary={`#${user.id}`}
-                    />
-                  </ListItem>
-                </TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{user.amount}</TableCell>
-                <TableCell>{user.count}</TableCell>
-                <TableCell>
-                  <Chip
-                    variant="outlined"
-                    color={user.status ? 'success' : 'error'}
-                    label={user.status ? 'Active' : 'Deactive'}
-                  />
-                </TableCell>
-                <TableCell>
-                  <IconButton>
-                    <MoreVert />
-                  </IconButton>
-                </TableCell>
+        <div style={{ overflowX: 'auto' }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Full Name</TableCell>
+                <TableCell>Email Address</TableCell>
+                <TableCell>Wallet Balance</TableCell>
+                <TableCell>Contract Count</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell></TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {users.map((user) => (
+                <TableRow key={user.id}>
+                  <TableCell>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar src={user.image} alt={user.name} />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={user.name}
+                        secondary={`${user.id}`}
+                      />
+                    </ListItem>
+                  </TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>{user.amount}</TableCell>
+                  <TableCell>{user.count}</TableCell>
+                  <TableCell>
+                    <Chip
+                      variant="outlined"
+                      color={user.status ? 'success' : 'error'}
+                      label={user.status ? 'Active' : 'Deactive'}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <IconButton>
+                      <MoreVert />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </CardContent>
     </CardBox>
   );
