@@ -1,4 +1,9 @@
-import { Brightness1, ExpandLess, ExpandMore } from '@mui/icons-material';
+import {
+  Brightness1,
+  ExpandLess,
+  ExpandMore,
+  Menu as MenuIcon,
+} from '@mui/icons-material';
 import {
   Box,
   Collapse,
@@ -11,6 +16,10 @@ import {
   Toolbar,
   Typography,
   styled,
+  AppBar,
+  IconButton,
+  InputBase,
+  Button,
 } from '@mui/material';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -18,6 +27,7 @@ import React, { useEffect, useState } from 'react';
 import { MenuItemType, SidbarItems } from './config';
 import Link from 'next/link';
 import { Icon } from '@/components/common';
+import { LogOutIcon, SettingIcon } from '@/components/icons';
 
 interface Props {
   drawerWidth: number;
@@ -53,7 +63,6 @@ const SubMenuStyled = styled(ListItemButton)({
   },
 });
 
-//=============================================================//
 const MenuItem = ({ icon, activeIcon, title, path, subMenu }: MenuItemType) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
@@ -122,7 +131,11 @@ const MenuItem = ({ icon, activeIcon, title, path, subMenu }: MenuItemType) => {
               <Icon icon={isActive ? activeIcon : icon} />
               <ListItemText
                 sx={{ pl: 1.5 }}
-                primary={<Typography variant="h6" component='h3' ml={2}>{title}</Typography>}
+                primary={
+                  <Typography variant="h6" component="h3" ml={2}>
+                    {title}
+                  </Typography>
+                }
                 disableTypography
               />
             </MenuItemStyled>
@@ -133,7 +146,31 @@ const MenuItem = ({ icon, activeIcon, title, path, subMenu }: MenuItemType) => {
   );
 };
 
-//====================================//
+const MenuItemDiv = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  gap: '16px',
+  borderTop: `0.6px solid ${theme.palette.borderBG}`,
+  padding: '16px 8px',
+  '& svg': {
+    width: '24px',
+    height: '24px',
+    fill: 'none',
+  },
+  '& a': {
+    fontSize: '14px',
+    fontWeight: '600',
+    lineHeight: '17.64px',
+    textAlign: 'left',
+    color: theme.palette.neutral.dark,
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    padding: '8px 12px',
+  },
+}));
+
 const Menu = ({ items }: { items: MenuItemType[] }) => {
   return (
     <>
@@ -153,29 +190,49 @@ const Menu = ({ items }: { items: MenuItemType[] }) => {
           alt="logo"
         />
       </Toolbar>
-      <List sx={{ pt: 21, px: 12 }}>
-        {items.map(({ subMenu, icon, activeIcon, path, id, title }) => (
-          <MenuItem
-            key={id}
-            path={path}
-            title={title}
-            icon={icon}
-            activeIcon={activeIcon}
-            id={id}
-            subMenu={subMenu}
-          />
-        ))}
+      <List
+        sx={{
+          pt: 21,
+          px: 12,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          height: '90%',
+        }}
+      >
+        <div>
+          {items.map(({ subMenu, icon, activeIcon, path, id, title }) => (
+            <MenuItem
+              key={id}
+              path={path}
+              title={title}
+              icon={icon}
+              activeIcon={activeIcon}
+              id={id}
+              subMenu={subMenu}
+            />
+          ))}
+        </div>
+        <MenuItemDiv>
+          <Link href={'/'}>
+            <SettingIcon />
+            Setting
+          </Link>
+          <Link href={'/'}>
+            <LogOutIcon />
+            Log out
+          </Link>
+        </MenuItemDiv>
       </List>
     </>
   );
 };
 
-//================================//
 export default function Sidebar({ drawerWidth, open, onClose }: Props) {
   return (
     <Box
       component="nav"
-      sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+      sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
       aria-label="mailbox folders"
     >
       <Drawer
@@ -186,7 +243,8 @@ export default function Sidebar({ drawerWidth, open, onClose }: Props) {
           keepMounted: true, // Better open performance on mobile.
         }}
         sx={{
-          display: { xs: 'block', sm: 'none' },
+          display: { xs: 'block', md: 'none' },
+          justifyContent: 'space-between',
           '& .MuiDrawer-paper': {
             boxSizing: 'border-box',
             width: drawerWidth,
@@ -198,12 +256,11 @@ export default function Sidebar({ drawerWidth, open, onClose }: Props) {
       <Drawer
         variant="permanent"
         sx={{
-          display: { xs: 'none', sm: 'block' },
+          display: { xs: 'none', md: 'block' },
           '& .MuiDrawer-paper': {
             boxSizing: 'border-box',
             width: drawerWidth,
             bgcolor: 'transparent',
-            // border: 'none',
             borderColor: 'rgba(223, 234, 242, 0.5)',
           },
         }}

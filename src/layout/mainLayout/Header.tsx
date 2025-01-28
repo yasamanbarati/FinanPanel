@@ -9,11 +9,12 @@ import {
   styled,
 } from '@mui/material';
 import React from 'react';
-//
-const StyledSearch = styled(OutlinedInput)(({ theme }) => ({
+
+// Styled components for better readability and maintainability
+const SearchInput = styled(OutlinedInput)(({ theme }) => ({
   padding: '8px 16px',
   paddingLeft: '0',
-  border: `1px solid ${theme.palette.black.light}`,
+  border: `0.5px solid ${theme.palette.black.light}`,
   borderRadius: '12px',
   width: '446px',
   height: '40px',
@@ -30,48 +31,47 @@ const StyledSearch = styled(OutlinedInput)(({ theme }) => ({
       },
     },
   },
+  [theme.breakpoints.down('md')]: {
+    padding: '8px 12px',
+    width: '300px',
+  },
 }));
 
-interface Props {
-  openSidebar: () => void;
+const CustomToolbar = styled(Toolbar)(({ theme }) => ({
+  padding: '20px 32px!important',
+  borderBottom: '1px solid #F7F8FA80',
+  justifyContent: 'space-between',
+}));
+
+interface HeaderProps {
+  onOpenSidebar: () => void;
   drawerWidth: number;
   headerHeight: number;
 }
 
-//================================//
-export default function Header({
-  openSidebar,
-  drawerWidth,
-  headerHeight,
-}: Props) {
+const Header: React.FC<HeaderProps> = ({ onOpenSidebar, drawerWidth, headerHeight }) => {
   return (
     <AppBar
       position="fixed"
       sx={{
-        width: { sm: `calc(100% - ${drawerWidth}px)` },
+        width: { md: `calc(100% - ${drawerWidth}px)` },
         height: headerHeight,
         boxShadow: 'none',
         bgcolor: '#fff',
         color: '#000',
       }}
     >
-      <Toolbar
-        sx={{
-          padding: '20px 32px!important',
-          borderBottom: '1px solid rgba(223, 234, 242, 0.5)',
-        }}
-      >
+      <CustomToolbar>
         <IconButton
           aria-label="open drawer"
           edge="start"
-          onClick={openSidebar}
-          sx={{ mr: 2, display: { sm: 'none' } }}
+          onClick={onOpenSidebar}
+          sx={{ mr: 2, display: { md: 'none' } }}
         >
           <Menu />
         </IconButton>
-        <StyledSearch
-          placeholder="Search transactions, contracts,etc..."
-          sx={{ pt: 5 }}
+        <SearchInput
+          placeholder="Search transactions, contracts, etc..."
           startAdornment={
             <InputAdornment position="start">
               <IconButton>
@@ -80,7 +80,9 @@ export default function Header({
             </InputAdornment>
           }
         />
-      </Toolbar>
+      </CustomToolbar>
     </AppBar>
   );
-}
+};
+
+export default Header;

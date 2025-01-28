@@ -17,8 +17,6 @@ export default function MainLayout({ children }: Props) {
     setOpenSidebar((prev) => !prev);
   };
 
-  //==========================================//
-
   return (
     <Box sx={{ display: 'flex' }}>
       <Sidebar
@@ -38,7 +36,7 @@ export default function MainLayout({ children }: Props) {
         }}
       >
         <Header
-          openSidebar={handleSidebarToggle}
+          onOpenSidebar={handleSidebarToggle}
           drawerWidth={drawerWidth}
           headerHeight={headerHeight}
         />
