@@ -1,4 +1,4 @@
-import { palette } from '@/theme/palette';
+import { palette } from '@/setup/theme/palette';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import React from 'react';
@@ -24,9 +24,7 @@ const IncomeCard = ({ title, profit, percent, icon }: Props) => {
         </div>
         <Image width={60} height={60} src={icon} alt="icon" />
       </div>
-      <Typography variant="body1">
-        {percent}
-      </Typography>
+      <Typography variant="body1">{percent}</Typography>
     </Box>
   );
 };
@@ -37,7 +35,7 @@ const styles = {
     borderRadius: '14px',
     border: '1px solid rgba(223, 234, 242, 0.5)',
     background: '#fff',
-    width: '258px',
+    width: { xs: '50%', xxl: '258px' },
     height: '185px',
     display: 'flex',
     flexDirection: 'column',
