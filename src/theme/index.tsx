@@ -4,21 +4,63 @@ import {
   ThemeProvider as M_ThemeProvider,
   createTheme,
 } from '@mui/material';
-import typography from './typography';
 import { Button, Card, CardContent, Chip, OutlinedInput } from './overrides';
-
-// ----------------------------------------------------------------------
+import { palette } from './palette';
 
 export default function ThemeProvider({ children }: ChildComponentProps) {
   //
   const themeOptions: ThemeOptions = {
-    typography,
-    shape: { borderRadius: 8 },
-    palette: {
-      primary: {
-        main: '#0074EF',
-        // contrastText: '#fff',
+    shape: { borderRadius: 4 },
+    palette: palette,
+    spacing: 2,
+    typography: {
+      h3: {
+        fontSize: '32px',
+        fontWeight: '700',
+        lineHeight: '40.32px',
       },
+      h4: {
+        fontSize: '1.5rem',
+        fontWeight: '700',
+        lineHeight: '30.24px',
+      },
+      h5: {
+        fontSize: '1.25rem', //20
+        lineHeight: '140%',
+        fontWeight: '700',
+        '@media (max-width: 667px)': {
+          fontSize: '1rem',
+          lineHeight: '180%',
+        },
+      },
+      h6: {
+        fontSize: '14px',
+        fontWeight: '600',
+        lineHeight: '17.64px',
+        textAlign: 'left',
+      },
+      body1: {
+        fontSize: '1rem', //16
+        lineHeight: '180%',
+        fontWeight: '500',
+        color: `${palette.black.dark}!important`,
+        '@media (max-width: 667px)': {
+          fontSize: '0.86rem',
+          lineHeight: '180%',
+          whiteSpace: 'nowrap',
+        },
+      },
+      body2: {
+          fontSize: '0.75rem',
+          fontWeight: '600',
+          lineHeight: '15.12px',
+      },
+      subtitle1:{
+        fontSize: '0.625rem',
+        fontWeight: '500',
+        lineHeight: '15.12px',
+        color: `${palette.black.dark}!important`,
+      }
     },
   };
 
@@ -29,6 +71,13 @@ export default function ThemeProvider({ children }: ChildComponentProps) {
     MuiChip: Chip(theme),
     MuiCardContent: CardContent(theme),
     MuiOutlinedInput: OutlinedInput(theme),
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          color: theme.palette.black.main,
+        },
+      },
+    },
     //  {
     //   styleOverrides: {
     //     root: {
