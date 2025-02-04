@@ -4,7 +4,7 @@ import {
   ThemeProvider as M_ThemeProvider,
   createTheme,
 } from '@mui/material';
-import { Button, Card, CardContent, Chip, OutlinedInput } from './overrides';
+import { Card, CardContent, Chip, OutlinedInput } from './overrides';
 import { palette } from './palette';
 
 export default function ThemeProvider({ children }: ChildComponentProps) {
@@ -15,14 +15,18 @@ export default function ThemeProvider({ children }: ChildComponentProps) {
     spacing: 2,
     typography: {
       h3: {
-        fontSize: '32px',
+        fontSize: '2rem', //32px
         fontWeight: '700',
         lineHeight: '40.32px',
       },
       h4: {
-        fontSize: '1.5rem',
+        fontSize: '1.5rem', //24px
         fontWeight: '700',
         lineHeight: '30.24px',
+        '@media (max-width: 667px)': {
+          fontSize: '1.25rem',
+          lineHeight: '180%',
+        },
       },
       h5: {
         fontSize: '1.25rem', //20
@@ -51,7 +55,7 @@ export default function ThemeProvider({ children }: ChildComponentProps) {
         },
       },
       body2: {
-        fontSize: '0.75rem',
+        fontSize: '0.75rem', //12
         fontWeight: '600',
         lineHeight: '15.12px',
       },
@@ -66,8 +70,9 @@ export default function ThemeProvider({ children }: ChildComponentProps) {
       values: {
         xs: 0,
         sm: 425,
+        mobileM: 525,
         tabletM: 667,
-        tablet: 840,
+        tablet: 768,
         md: 940,
         lg: 1025,
         xl: 1200,
@@ -78,7 +83,6 @@ export default function ThemeProvider({ children }: ChildComponentProps) {
 
   const theme = createTheme(themeOptions);
   theme.components = {
-    MuiButton: Button(theme),
     MuiCard: Card(theme),
     MuiChip: Chip(theme),
     MuiCardContent: CardContent(theme),
@@ -87,110 +91,22 @@ export default function ThemeProvider({ children }: ChildComponentProps) {
       styleOverrides: {
         root: {
           color: theme.palette.black.main,
+          whiteSpace: 'normal!important',
         },
       },
     },
-    //  {
-    //   styleOverrides: {
-    //     root: {
-    //       borderRadius: '1rem',
-    //       padding: '1rem',
-    //       fontSize: '1.125rem',
-    //       boxShadow: 'none',
-    //       textTransform: 'unset',
-    //       fontWeight: '500',
-
-    //       '&:hover': {},
-    //       // '&.Mui-disabled': {
-    //       //   backgroundColor: theme.palette.primary.main,
-    //       //   color: '#FFF',
-    //       //   opacity: '50%',
-    //       // },
-    //       [theme.breakpoints.down('sm')]: {
-    //         fontSize: '14px',
-    //       },
-    //     },
-    //     // outlinedPrimary: {
-    //     //   border: '1px solid #D0D5DD',
-    //     //   color: '#3F3F46',
-    //     // },
-    //     // containedPrimary: {
-    //     //   // background: 'linear-gradient(89deg, #4283C6 -45.88%, #204060 100%)',
-    //     //   fontSize: '1.125rem',
-    //     //   borderRadius: '0.625rem',
-    //     //   '&.Mui-disabled': {
-    //     //     opacity: '0.5',
-    //     //     bcakgroundColor: '#C6DAEE',
-    //     //     color: '#fff',
-    //     //   },
-    //     // },
-    //   },
-    // },
-
-    // MuiOutlinedInput: {
-    //   styleOverrides: {
-    //     root: {
-    //       height: '62px',
-    //       borderColor: '#CBCAD7',
-    //       lineHeight: '24px',
-    //       // '& .MuiOutlinedInput-notchedOutline': {
-    //       //   border: '1px solid #D0D5DD',
-    //       // },
-    //       borderRadius: '1rem',
-    //       padding: '20px, 14px, 20px, 14px',
-    //     },
-    //     error: {
-    //       // background: 'red',
-    //       '& .MuiOutlinedInput-notchedOutline ': {
-    //         borderColor: '#DD331D',
-    //       },
-    //     },
-    //   },
-    // },
-
-    // MuiCheckbox: {
-    //   styleOverrides: {
-    //     root: {
-    //       '&.MuiCheckbox-sizeMedium': {
-    //         // width: '16px',
-    //         // height: '16px',
-    //         // border: '1px solid #D0D5DD',
-    //         // borderRadius: '4px',
-    //       },
-    //     },
-    //   },
-    // },
-
-    // MuiLink: {
-    //   defaultProps: {
-    //     color: '#6941C6',
-    //     underline: 'none',
-    //   },
-    // },
-    // MuiCard: {
-    //   styleOverrides: {
-    //     root: {
-    //       backgroundColor: 'rgba(255, 255, 255, 1)',
-    //       boxShadow: 'none',
-    //       border: '1px solid rgba(223, 234, 242, 0.5)',
-    //       borderRadius: '14px',
-    //     },
-    //   },
-    // },
-    // MuiTableCell: {
-    //   styleOverrides: {
-    //     root: {
-    //       border: 'none',
-    //     },
-    //   },
-    // },
-    // },
+    MuiSvgIcon: {
+      styleOverrides: {
+        root: {
+          fill: 'none',
+        },
+      },
+    },
   };
 
   return (
     <M_ThemeProvider theme={theme}>
       <CssBaseline />
-      {/* <GlobalStyles /> */}
       {children}
     </M_ThemeProvider>
   );
@@ -200,6 +116,7 @@ declare module '@mui/material/styles' {
   interface BreakpointOverrides {
     xs: true;
     sm: true;
+    mobileM: true;
     tabletM: true;
     tablet: true;
     md: true;

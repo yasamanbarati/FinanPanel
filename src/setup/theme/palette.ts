@@ -9,14 +9,21 @@ export const palette = {
     light: '#DFEAF280',
   },
   primary: {
-    main: '#FB8500',
+    main: '#53389E',
+    light: '#6941C6',
   },
   secondary: {
+    main: '#939393',
+    contrastText: '#CCCCCE',
+    light: '#FBFBFB',
+  },
+  info: {
     main: '#376DA4',
   },
   error: {
     main: '#DD6B5C',
     light: '#E2B6B6',
+    dark: '#DD331D',
   },
   success: {
     main: '#98C729',
@@ -25,11 +32,13 @@ export const palette = {
   warning: {
     main: '#E8B93F',
     light: '#EBDCB3',
+    dark: '',
   },
   black: {
     dark: '#3F3F46',
     main: '#18181B',
     light: '#CBCAD7',
+    contrastText: '#667085',
   },
   borderBG: '#E0E0E0',
 };
@@ -38,6 +47,7 @@ declare module '@mui/material/styles' {
     neutral: PaletteColor;
     primary: PaletteColor;
     secondary: PaletteColor;
+    info: PaletteColor;
     error: PaletteColor;
     success: PaletteColor;
     warning: PaletteColor;
@@ -48,6 +58,7 @@ declare module '@mui/material/styles' {
     neutral?: PaletteColorOptions;
     primary?: PaletteColorOptions;
     secondary?: PaletteColorOptions;
+    info?: PaletteColorOptions;
     error?: PaletteColorOptions;
     success?: PaletteColorOptions;
     warning?: PaletteColorOptions;
@@ -59,6 +70,7 @@ declare module '@mui/material/Button' {
     neutral: true;
     primary: true;
     secondary: true;
+    info: true;
     error: true;
     success: true;
     black: true;
