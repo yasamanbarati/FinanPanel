@@ -1,3 +1,77 @@
+import { profileMenuSettingType, MenuItemType, ContractListType } from './type';
+import {
+  ManageAccountIcon,
+  PasswordIcon,
+  LogOut2Icon,
+} from '@/components/icons';
+export const profileMenuSetting: profileMenuSettingType[] = [
+  {
+    title: 'Manage Account',
+    icon: ManageAccountIcon,
+  },
+  {
+    title: 'Change Password',
+    icon: PasswordIcon,
+  },
+  {
+    title: 'Log out',
+    icon: LogOut2Icon,
+  },
+];
+
+export const SidebarItems: MenuItemType[] = [
+  {
+    id: 0,
+    icon: 'Overviwe',
+    activeIcon: 'Overviwe2',
+    title: 'Overview',
+    path: '/',
+  },
+  {
+    id: 1,
+    icon: 'Contract',
+    activeIcon: 'Contract2',
+    title: 'Contracts',
+    path: '/contracts',
+    subMenu: [
+      {
+        path: '/contracts/list',
+        title: 'List',
+      },
+      {
+        path: '/contracts/management',
+        title: 'Management',
+      },
+      {
+        path: '/contracts/history',
+        title: 'History',
+      },
+    ],
+  },
+
+  {
+    id: 2,
+    icon: 'Users',
+    activeIcon: 'Users2',
+    title: 'Users List',
+    path: '/users',
+  },
+  {
+    id: 3,
+    icon: 'Transactions',
+    activeIcon: 'Transactions2',
+    title: 'Transactions',
+    path: '/transactions',
+  },
+  {
+    id: 4,
+    icon: 'Webpage',
+    activeIcon: 'Webpage',
+    title: 'Static Pages',
+    path: '/pages',
+  },
+];
+
 export const HEADER_ITEMS = [
   {
     title: 'New Income',
@@ -83,5 +157,60 @@ export const USERS = [
     image: '/static/images/user-5.svg',
     date: 'July 3, 2024',
     amount: '$45.50',
+  },
+];
+
+export const ContractList: ContractListType[] = [
+  {
+    id: 0,
+    status: 1, //active
+    ImageSrc: '/static/images/Group.png',
+    title: 'Lutetium',
+    time: 6,
+    minimumAmount: 500.0,
+    monthlyProfit: 25,
+    dropDown: 5,
+    risk: 12,
+    limitContrcts: 150,
+    activeContracts: 98,
+  },
+  {
+    id: 1,
+    status: 1, //active
+    ImageSrc: '/static/images/Group (1).png',
+    title: 'Titanium',
+    time: 9,
+    minimumAmount: 500.0,
+    monthlyProfit: 25,
+    dropDown: 5,
+    risk: 12,
+    limitContrcts: 150,
+    activeContracts: 98,
+  },
+  {
+    id: 2,
+    status: 1, //active
+    ImageSrc: '/static/images/Group (2).png',
+    title: 'Platinum',
+    time: 12,
+    minimumAmount: 500.0,
+    monthlyProfit: 25,
+    dropDown: 5,
+    risk: 12,
+    limitContrcts: 150,
+    activeContracts: 98,
+  },
+  {
+    id: 3,
+    status: 0, //Deactive
+    ImageSrc: '/static/images/Group (3).png',
+    title: 'Lutetium',
+    time: 6,
+    minimumAmount: 500.0,
+    monthlyProfit: 25,
+    dropDown: 5,
+    risk: 12,
+    limitContrcts: 150,
+    activeContracts: 98,
   },
 ];
