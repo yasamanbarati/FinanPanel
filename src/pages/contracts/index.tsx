@@ -1,5 +1,5 @@
-import Home from '@/components/home';
-import MainLayout from '@/layout/mainLayout';
+import Home from '@/components/pages/overviwe';
+import MainLayout from '@/layout';
 import Head from 'next/head';
 
 export default function ContractsPage() {

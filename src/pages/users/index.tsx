@@ -1,6 +1,6 @@
 import React from 'react';
 import Page from '@/components/Page';
-import MainLayout from '@/layout/mainLayout';
+import MainLayout from '@/layout';
 
 export default function UsersPage() {
   return (
