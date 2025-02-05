@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Chip, Grid, styled, Typography } from '@mui/material';
 import Image from 'next/image';
+import DeleteModal from '@/components/modals/delete';
 
 interface Props {
   contractList: {
@@ -79,6 +80,7 @@ const CustomizeCard = styled(Grid)(({ theme }) => ({
     },
   },
 }));
+
 const CustomizeDiv = styled('div')(() => ({
   display: 'flex',
   justifyContent: 'flex-end',
@@ -87,7 +89,14 @@ const CustomizeDiv = styled('div')(() => ({
     borderRadius: '8px',
   },
 }));
+
 const ContractListCard = ({ contractList }: Props) => {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+
+  const handleClose = () => setOpen(false);
+
   return (
     <CustomizeCard item container xs={12} xl={6}>
       <Grid item xs={4} flexDirection="column">
@@ -143,9 +152,15 @@ const ContractListCard = ({ contractList }: Props) => {
           <Button variant="contained" color="primary">
             Edit
           </Button>
-          <Button variant="outlined" color="secondary">
-            Deactive
+          <Button variant="outlined" color="secondary" onClick={handleOpen}>
+            Delete
           </Button>
+          <DeleteModal
+            open={open}
+            ImageSrc={contractList.ImageSrc}
+            title={contractList.title}
+            onClose={handleClose} 
+          />
         </CustomizeDiv>
       </Grid>
     </CustomizeCard>
