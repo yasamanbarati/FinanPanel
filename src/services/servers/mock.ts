@@ -173,6 +173,8 @@ export const ContractList: ContractListType[] = [
     risk: 12,
     limitContrcts: 150,
     activeContracts: 98,
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
   },
   {
     id: 1,
@@ -186,6 +188,8 @@ export const ContractList: ContractListType[] = [
     risk: 12,
     limitContrcts: 150,
     activeContracts: 98,
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
   },
   {
     id: 2,
@@ -199,6 +203,8 @@ export const ContractList: ContractListType[] = [
     risk: 12,
     limitContrcts: 150,
     activeContracts: 98,
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
   },
   {
     id: 3,
@@ -212,5 +218,7 @@ export const ContractList: ContractListType[] = [
     risk: 12,
     limitContrcts: 150,
     activeContracts: 98,
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
   },
 ];

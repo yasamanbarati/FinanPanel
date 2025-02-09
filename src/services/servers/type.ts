@@ -29,4 +29,5 @@ export interface ContractListType {
   risk: number;
   limitContrcts: number;
   activeContracts: number;
+  description?: string;
 }
