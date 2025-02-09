@@ -2,20 +2,11 @@ import React, { useState } from 'react';
 import { Button, Chip, Grid, styled, Typography } from '@mui/material';
 import Image from 'next/image';
 import DeleteModal from '@/components/modals/delete';
+import EditModal from '@/components/modals/edit';
+import { ContractListType } from '@/services/servers/type';
 
 interface Props {
-  contractList: {
-    status: number; //0 or 1
-    ImageSrc: string;
-    title: string;
-    time: number;
-    minimumAmount: number;
-    monthlyProfit: number;
-    dropDown: number;
-    risk: number;
-    limitContrcts: number;
-    activeContracts: number;
-  };
+  contractList: ContractListType;
 }
 
 const CustomizeCard = styled(Grid)(({ theme }) => ({
@@ -57,7 +48,7 @@ const CustomizeCard = styled(Grid)(({ theme }) => ({
         position: 'relative',
         '& span:first-child': {
           color: theme.palette.neutral.dark,
-          fontSize: '0.86rem',
+          fontSize: '0.875rem',
           lineHeight: '40px',
           fontWeight: '400',
         },
@@ -93,9 +84,15 @@ const CustomizeDiv = styled('div')(() => ({
 const ContractListCard = ({ contractList }: Props) => {
   const [open, setOpen] = useState(false);
 
+  const [openEditModal, setOpenEditModal] = useState(false);
+
   const handleOpen = () => setOpen(true);
 
   const handleClose = () => setOpen(false);
+
+  const handleEditOpen = () => setOpenEditModal(true);
+
+  const handleEditClose = () => setOpenEditModal(false);
 
   return (
     <CustomizeCard item container xs={12} xl={6}>
@@ -149,7 +146,7 @@ const ContractListCard = ({ contractList }: Props) => {
           </li>
         </ul>
         <CustomizeDiv>
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" onClick={handleEditOpen}>
             Edit
           </Button>
           <Button variant="outlined" color="secondary" onClick={handleOpen}>
@@ -159,7 +156,12 @@ const ContractListCard = ({ contractList }: Props) => {
             open={open}
             ImageSrc={contractList.ImageSrc}
             title={contractList.title}
-            onClose={handleClose} 
+            onClose={handleClose}
+          />
+          <EditModal
+            open={openEditModal}
+            onClose={handleEditClose}
+            card={contractList}
           />
         </CustomizeDiv>
       </Grid>
