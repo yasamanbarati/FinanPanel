@@ -49,7 +49,7 @@ export default function ThemeProvider({ children }: ChildComponentProps) {
         fontWeight: '500',
         color: `${palette.black.dark}!important`,
         '@media (max-width: 667px)': {
-          fontSize: '0.86rem',
+          fontSize: '0.875rem',
           lineHeight: '180%',
           whiteSpace: 'nowrap',
         },

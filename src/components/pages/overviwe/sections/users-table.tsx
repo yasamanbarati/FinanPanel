@@ -74,7 +74,7 @@ const CardBox = styled(Card)(({ theme }) => ({
       lineHeight: '15.12px',
     },
     '& tbody td': {
-      fontSize: '0.86rem',
+      fontSize: '0.875rem',
       lineHeight: '17.64px',
     },
   },
