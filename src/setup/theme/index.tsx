@@ -18,6 +18,12 @@ export default function ThemeProvider({ children }: ChildComponentProps) {
         fontSize: '2rem', //32px
         fontWeight: '700',
         lineHeight: '40.32px',
+        '@media (max-width: 1200px)': {
+          fontSize: '1.5rem',
+        },
+        '@media (max-width: 768px)': {
+          fontSize: '1.15rem',
+        },
       },
       h4: {
         fontSize: '1.5rem', //24px
@@ -37,12 +43,6 @@ export default function ThemeProvider({ children }: ChildComponentProps) {
           lineHeight: '180%',
         },
       },
-      h6: {
-        fontSize: '14px',
-        fontWeight: '600',
-        lineHeight: '17.64px',
-        textAlign: 'left',
-      },
       body1: {
         fontSize: '1rem', //16
         lineHeight: '180%',
@@ -53,6 +53,12 @@ export default function ThemeProvider({ children }: ChildComponentProps) {
           lineHeight: '180%',
           whiteSpace: 'nowrap',
         },
+      },
+      h6: {
+        fontSize: '0.875rem',
+        fontWeight: '600',
+        lineHeight: '17.64px',
+        textAlign: 'left',
       },
       body2: {
         fontSize: '0.75rem', //12
