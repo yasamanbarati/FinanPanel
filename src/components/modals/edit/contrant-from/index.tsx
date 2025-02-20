@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import { ContractListType } from '@/services/servers/type';
 import CustomizeTextField from '@/components/form-field/text-field';
+import CustomizeSelectField from '@/components/form-field/select-field';
 
 interface ContractFormProps {
   card?: ContractListType;
@@ -9,6 +10,8 @@ interface ContractFormProps {
 }
 
 const ContractForm: React.FC<ContractFormProps> = ({ card, handelOnClose }) => {
+  console.log(card?.description);
+
   const [formValues, setFormValues] = useState({
     minimumAmount: '',
     time: '',
@@ -72,6 +75,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ card, handelOnClose }) => {
           label="Name"
           title="name"
           placeholder={card?.title}
+          value={card?.title}
           type="text"
           sxStyle={{ width: { md: '306px' } }}
         />
@@ -84,14 +88,9 @@ const ContractForm: React.FC<ContractFormProps> = ({ card, handelOnClose }) => {
           value={formValues.minimumAmount}
           handleOnChange={handleInputChange('minimumAmount')}
         />
-        <CustomizeTextField
-          label="Time"
-          title="time"
-          placeholder={card?.time.toString()}
-          type="text"
-          sxStyle={{ width: { md: '94px' } }}
-          value={formValues.time}
-          handleOnChange={handleInputChange('time')}
+        <CustomizeSelectField
+          list={['6', '9', '12', '18']}
+          defaultValue={card?.time.toString()}
         />
       </Grid>
       <Grid container spacing={4} justifyContent="space-between">
@@ -154,7 +153,14 @@ const ContractForm: React.FC<ContractFormProps> = ({ card, handelOnClose }) => {
           }}
         />
       </Grid>
-      <Grid>
+      <Grid
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          gap: '8px',
+        }}
+      >
+        <Grid item></Grid>
         <Grid
           item
           sx={{
