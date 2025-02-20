@@ -1,4 +1,9 @@
-import { profileMenuSettingType, MenuItemType, ContractListType } from './type';
+import {
+  profileMenuSettingType,
+  MenuItemType,
+  ContractListType,
+  ContractManagementProps,
+} from './type';
 import {
   ManageAccountIcon,
   PasswordIcon,
@@ -173,6 +178,28 @@ export const ContractList: ContractListType[] = [
     risk: 12,
     limitContrcts: 150,
     activeContracts: 98,
+    ListFeatures: [
+      {
+        id: 0,
+        name: 'Up to 15% interest rates',
+        flag: true,
+      },
+      {
+        id: 1,
+        name: 'Low risk',
+        flag: true,
+      },
+      {
+        id: 2,
+        name: 'Monthly Profit payment',
+        flag: true,
+      },
+      {
+        id: 3,
+        name: 'Access to monthly reports',
+        flag: true,
+      },
+    ],
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
   },
@@ -188,6 +215,28 @@ export const ContractList: ContractListType[] = [
     risk: 12,
     limitContrcts: 150,
     activeContracts: 98,
+    ListFeatures: [
+      {
+        id: 0,
+        name: 'Up to 15% interest rates',
+        flag: true,
+      },
+      {
+        id: 1,
+        name: 'Low risk',
+        flag: true,
+      },
+      {
+        id: 2,
+        name: 'Monthly Profit payment',
+        flag: true,
+      },
+      {
+        id: 3,
+        name: 'Access to monthly reports',
+        flag: true,
+      },
+    ],
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
   },
@@ -203,6 +252,28 @@ export const ContractList: ContractListType[] = [
     risk: 12,
     limitContrcts: 150,
     activeContracts: 98,
+    ListFeatures: [
+      {
+        id: 0,
+        name: 'Up to 15% interest rates',
+        flag: true,
+      },
+      {
+        id: 1,
+        name: 'Low risk',
+        flag: true,
+      },
+      {
+        id: 2,
+        name: 'Monthly Profit payment',
+        flag: true,
+      },
+      {
+        id: 3,
+        name: 'Access to monthly reports',
+        flag: true,
+      },
+    ],
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
   },
@@ -218,7 +289,50 @@ export const ContractList: ContractListType[] = [
     risk: 12,
     limitContrcts: 150,
     activeContracts: 98,
+    ListFeatures: [
+      {
+        id: 0,
+        name: 'Up to 15% interest rates',
+        flag: true,
+      },
+      {
+        id: 1,
+        name: 'Low risk',
+        flag: true,
+      },
+      {
+        id: 2,
+        name: 'Monthly Profit payment',
+        flag: true,
+      },
+      {
+        id: 3,
+        name: 'Access to monthly reports',
+        flag: true,
+      },
+    ],
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
+  },
+];
+
+export const ContractManagement: ContractManagementProps[] = [
+  {
+    title: 'Wallets',
+    value: 5502.45,
+    percent: 12.5,
+    status: 1,
+  },
+  {
+    title: 'Contracts',
+    value: 945000,
+    percent: 27,
+    status: 1,
+  },
+  {
+    title: 'Total',
+    value: 1594555,
+    percent: -15,
+    status: 0,
   },
 ];

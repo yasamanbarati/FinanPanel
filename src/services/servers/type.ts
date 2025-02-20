@@ -30,4 +30,17 @@ export interface ContractListType {
   limitContrcts: number;
   activeContracts: number;
   description?: string;
+  ListFeatures?: ListFeaturesProps[];
+}
+
+export interface ListFeaturesProps {
+  id: number;
+  name: string;
+  flag: boolean;
+}
+export interface ContractManagementProps {
+  title: string;
+  value: number;
+  percent: number;
+  status: number;
 }
