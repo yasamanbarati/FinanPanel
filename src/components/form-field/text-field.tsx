@@ -29,8 +29,15 @@ const CustomizeTextField: React.FC<CustomizeTextFieldProps> = ({
         type={type}
         placeholder={placeholder}
         onChange={handleOnChange}
-        value={value}
+        // value={value}
+        defaultValue={value}
         fullWidth
+        sx={{
+          '& .MuiInputBase-input': {
+            width: '100%',
+            height: '98%',
+          },
+        }}
       />
     </Grid>
   );
