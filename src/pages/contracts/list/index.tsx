@@ -16,13 +16,22 @@ const CustomizeDiv = styled('div')(() => ({
 }));
 
 export default function ContractListPage() {
+  const activeContractsCount = ContractList.filter(
+    (contract) => contract.status === 1,
+  ).length;
+
+  const isCreateButtonDisabled = activeContractsCount >= 3;
   return (
     <MainLayout>
       <CustomizeDiv>
         <div>
           <BreadcrumbSection disabledLink="List of contracts" />
         </div>
-        <Button variant="contained" color="primary">
+        <Button
+          variant="contained"
+          color="primary"
+          // disabled={isCreateButtonDisabled}
+        >
           Create New Contract
         </Button>
       </CustomizeDiv>
@@ -37,6 +46,7 @@ export default function ContractListPage() {
             <ContractListCard
               key={index}
               contractList={{
+                id: item.id,
                 status: item.status,
                 ImageSrc: item.ImageSrc,
                 title: item.title,
