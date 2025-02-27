@@ -19,20 +19,11 @@ import {
   Typography,
 } from '@mui/material';
 import Link from 'next/link';
-import { MoreVert } from '@mui/icons-material';
+import CustomizeTable from '@/components/table';
+import { UserListProps } from '@/services/servers/type';
 
 interface Props {
-  users: {
-    id: string;
-    name: string;
-    email: string;
-    count: string;
-    status: number;
-    action: string;
-    image: string;
-    date: string;
-    amount: string;
-  }[];
+  users: UserListProps[];
 }
 
 const CardBox = styled(Card)(({ theme }) => ({
@@ -91,50 +82,18 @@ const UsersTable = ({ users }: Props) => {
           <Link href={'/'}>See all</Link>
         </Stack>
         <div style={{ overflowX: 'auto' }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Full Name</TableCell>
-                <TableCell>Email Address</TableCell>
-                <TableCell>Wallet Balance</TableCell>
-                <TableCell>Contract Count</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {users.map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell>
-                    <ListItem>
-                      <ListItemAvatar>
-                        <Avatar src={user.image} alt={user.name} />
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={user.name}
-                        secondary={`${user.id}`}
-                      />
-                    </ListItem>
-                  </TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>{user.amount}</TableCell>
-                  <TableCell>{user.count}</TableCell>
-                  <TableCell>
-                    <Chip
-                      variant="outlined"
-                      color={user.status ? 'success' : 'error'}
-                      label={user.status ? 'Active' : 'Deactive'}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <IconButton>
-                      <MoreVert />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <CustomizeTable
+            headers={[
+              'Full Name',
+              'Email Address',
+              'Wallet Balance',
+              'Contract Count',
+              'Status',
+              '',
+            ]}
+            data={users}
+            statusLabels={['Active', 'Deactive']}
+          />
         </div>
       </CardContent>
     </CardBox>
