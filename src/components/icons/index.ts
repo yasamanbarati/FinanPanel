@@ -6,3 +6,4 @@ export { ManageAccountIcon } from './manage-account-icon';
 export { PasswordIcon } from './password-icon';
 export { LogOut2Icon } from './logOut2-icon';
 export { TrashIcon } from './trash-icon';
+export { CalendarIcon } from './calender-icon';
