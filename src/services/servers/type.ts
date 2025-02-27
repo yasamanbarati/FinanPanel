@@ -44,3 +44,19 @@ export interface ContractManagementProps {
   percent: number;
   status: number;
 }
+export interface UserListProps {
+  id: string;
+  fullName: string;
+  email?: string | undefined;
+  walletBalance?: string;
+  registerDate?: string;
+  lastLogin?: string;
+  status: number;
+  avatar: string;
+  contractCount?: number | string;
+  action?: string;
+  date?: string | Date;
+  type?: string;
+  amount?: string;
+  walletAddress?: string;
+}
