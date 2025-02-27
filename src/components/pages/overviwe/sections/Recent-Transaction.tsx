@@ -11,19 +11,10 @@ import {
   styled,
   Typography,
 } from '@mui/material';
+import { UserListProps } from '@/services/servers/type';
 
 interface Props {
-  users: {
-    id: string;
-    name: string;
-    email: string;
-    count: string;
-    status: number;
-    action: string;
-    image: string;
-    date: string;
-    amount: string;
-  }[];
+  users: UserListProps[];
 }
 
 const CardBox = styled(Card)(({ theme }) => ({
@@ -55,13 +46,15 @@ const RecentTransactions = ({ users }: Props) => {
           {users.map((transaction) => (
             <ListItem key={transaction.id}>
               <ListItemAvatar>
-                <Avatar src={transaction.image} alt={transaction.name} />
+                <Avatar src={transaction.avatar} alt={transaction.fullName} />
               </ListItemAvatar>
               <ListItemText
-                primary={transaction.name}
+                primary={transaction.fullName}
                 secondary={transaction.action}
               />
-              <Typography variant="body2">{transaction.amount}</Typography>
+              <Typography variant="body2">
+                {transaction.walletBalance}
+              </Typography>
             </ListItem>
           ))}
         </List>
