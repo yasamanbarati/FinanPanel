@@ -30,7 +30,12 @@ export default function ContractListPage() {
         <Button
           variant="contained"
           color="primary"
-          // disabled={isCreateButtonDisabled}
+          sx={{
+            '@media (max-width: 667px)': {
+              borderRadius: '10px!important',
+              padding: '8px 12px!important',
+            },
+          }}
         >
           Create New Contract
         </Button>
