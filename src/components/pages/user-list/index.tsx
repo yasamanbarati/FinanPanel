@@ -120,13 +120,26 @@ const UsersList = () => {
           alignItems: 'center',
           mb: 3,
           position: 'relative',
+          '@media (max-width: 769px)': {
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            gap: '8px',
+          },
         }}
       >
         <Typography variant="h4" fontWeight="bold">
           Users List ({filteredUsers.length})
         </Typography>
 
-        <Box sx={{ position: 'relative' }}>
+        <Box
+          sx={{
+            position: 'relative',
+            '@media (max-width: 769px)': {
+              width: '100%',
+              marginBottom: '16px',
+            },
+          }}
+        >
           <SearchInput
             placeholder="Search"
             startAdornment={
@@ -138,6 +151,9 @@ const UsersList = () => {
             }
             value={searchText}
             onChange={handleSearchChange}
+            sx={{
+              '@media (max-width: 769px)': { width: '100%' },
+            }}
           />
 
           {suggestions.length > 0 && (

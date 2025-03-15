@@ -59,4 +59,10 @@ export interface UserListProps {
   type?: string;
   amount?: string;
   walletAddress?: string;
+  // contractPlan?: {
+  //   icon: ReactElement | SvgIconProps | SVGRectElement | any;
+  //   title: string;
+  // };
+  // icon: ReactElement | SvgIconProps | SVGRectElement | any;
+  // title: string;
 }

@@ -32,7 +32,6 @@ export const palette = {
   warning: {
     main: '#E8B93F',
     light: '#EBDCB3',
-    dark: '',
   },
   black: {
     dark: '#3F3F46',
