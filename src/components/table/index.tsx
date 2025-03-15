@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement, useState } from 'react';
 import {
   Table,
   TableBody,
@@ -11,14 +11,22 @@ import {
   Avatar,
   Chip,
   styled,
+  IconButton,
+  SvgIconProps,
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { UserListProps } from '@/services/servers/type';
+import { SettingsMenu } from './settings-menu';
 
 interface Props {
   headers: string[];
   data: UserListProps[];
   statusLabels: string[];
+  SettingsMenuitems?: {
+    title: string;
+    icon: ReactElement | SvgIconProps | SVGRectElement | any;
+    handelOpenModel: () => void;
+  }[];
 }
 
 const StickyTableContainer = styled(TableContainer)(({ theme }) => ({
@@ -36,10 +44,26 @@ const StickyTableContainer = styled(TableContainer)(({ theme }) => ({
   },
 }));
 
-const CustomizeTable = ({ headers, data, statusLabels }: Props) => {
+const CustomizeTable = ({
+  headers,
+  data,
+  statusLabels,
+  SettingsMenuitems,
+}: Props) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [isScrolled, setIsScrolled] = React.useState(false);
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null,
+  );
+  // باز کردن منوی کاربر
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
 
+  // بستن منوی کاربر
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     setIsScrolled(e.currentTarget.scrollTop > 5);
   };
@@ -179,8 +203,17 @@ const CustomizeTable = ({ headers, data, statusLabels }: Props) => {
                 />
               </TableCell>
 
-              <TableCell>
-                <MoreVertIcon sx={{ fill: '#CBCAD7' }} />
+              <TableCell sx={{ position: 'relative' }}>
+                <IconButton onClick={handleOpenUserMenu}>
+                  <MoreVertIcon sx={{ fill: '#CBCAD7' }} />
+                </IconButton>
+
+                <SettingsMenu
+                  anchorEl={anchorElUser}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                  items={SettingsMenuitems}
+                />
               </TableCell>
             </TableRow>
           ))}
