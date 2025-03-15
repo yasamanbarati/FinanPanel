@@ -7,3 +7,6 @@ export { PasswordIcon } from './password-icon';
 export { LogOut2Icon } from './logOut2-icon';
 export { TrashIcon } from './trash-icon';
 export { CalendarIcon } from './calender-icon';
+export { DeleteIcon } from './delete-icon';
+export { PersonIcon } from './person-icon';
+export { ViewIcon } from './view-icon';
