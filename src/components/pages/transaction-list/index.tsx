@@ -17,6 +17,8 @@ import {
 import CustomizeTable from '@/components/table';
 import { transactionsList } from '@/services/servers/mock';
 import { CalendarIcon, SearchIcon } from '@/components/icons';
+import { DeleteIcon, PersonIcon, ViewIcon } from '@/components/icons';
+import UserDetailsModal from '@/components/modals/user-details';
 
 const SearchInput = styled(OutlinedInput)(({ theme }) => ({
   display: 'flex',
@@ -81,13 +83,23 @@ const TransactionList = () => {
   const [periodAnchor, setPeriodAnchor] = useState<null | HTMLElement>(null);
   const [searchText, setSearchText] = useState('');
   const [page, setPage] = useState(1);
+  const [openProfile, setOpenProfile] = useState(false);
+  const [openDetails, setOpenDetails] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const itemsPerPage = 10;
 
-  // تعیین نوع تراکنش بر اساس تب انتخاب شده
+  const handleOpenProfile = () => setOpenProfile(true);
+  const handleOpenDetails = () => setOpenDetails(true);
+  const handleOpenDelete = () => setOpenDelete(true);
+
+  const handleCloseDetails = () => setOpenDetails(false);
+  const handleCloseProfile = () => setOpenProfile(false);
+  const handleCloseDelete = () => setOpenDelete(false);
+
   const transactionType = useMemo(() => {
     switch (value) {
       case 0:
-        return 'All'; // همه تراکنش‌ها
+        return 'All';
       case 1:
         return 'Investment';
       case 2:
@@ -119,8 +131,7 @@ const TransactionList = () => {
 
   // داده‌های صفحه فعلی
   const paginatedData = useMemo(
-    () =>
-      filteredData.slice((page - 1) * itemsPerPage, page * itemsPerPage),
+    () => filteredData.slice((page - 1) * itemsPerPage, page * itemsPerPage),
     [filteredData, page],
   );
 
@@ -133,7 +144,7 @@ const TransactionList = () => {
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
-    setPage(1); // بازگشت به صفحه اول هنگام تغییر تب
+    setPage(1);
   };
 
   const handlePeriodOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -237,7 +248,40 @@ const TransactionList = () => {
             ]}
             data={paginatedData}
             statusLabels={['Success', 'Failed', 'Pending']}
+            SettingsMenuitems={[
+              {
+                title: 'View Details',
+                icon: (
+                  <ViewIcon
+                    width={'16px!important'}
+                    height={'16px!important'}
+                  />
+                ),
+                handelOpenModel: handleOpenDetails,
+              },
+              {
+                title: 'View Profile',
+                icon: (
+                  <PersonIcon
+                    width={'16px!important'}
+                    height={'16px!important'}
+                  />
+                ),
+                handelOpenModel: handleOpenProfile,
+              },
+              {
+                title: 'Delete Transaction',
+                icon: (
+                  <DeleteIcon
+                    width={'16px!important'}
+                    height={'16px!important'}
+                  />
+                ),
+                handelOpenModel: handleOpenDelete,
+              },
+            ]}
           />
+          <UserDetailsModal open={openDetails} onClose={handleCloseDetails} />
         </div>
         {totalPages > 1 && (
           <Box sx={{ display: 'flex', justifyContent: 'center', py: 3 }}>
