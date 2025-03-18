@@ -14,6 +14,15 @@ export default function ThemeProvider({ children }: ChildComponentProps) {
     palette: palette,
     spacing: 2,
     typography: {
+      h2: {
+        fontSize: '2.5rem', //40px
+        fontWeight: '700',
+        lineHeight: '48px',
+        textAlign: 'center',
+        '@media (max-width: 920px)': {
+          fontSize: '2rem',
+        },
+      },
       h3: {
         fontSize: '2rem', //32px
         fontWeight: '700',
@@ -38,6 +47,9 @@ export default function ThemeProvider({ children }: ChildComponentProps) {
         fontSize: '1.25rem', //20
         lineHeight: '140%',
         fontWeight: '700',
+        '@media (max-width: 920px)': {
+          fontSize: '1.125rem',
+        },
         '@media (max-width: 667px)': {
           fontSize: '1rem',
           lineHeight: '180%',
