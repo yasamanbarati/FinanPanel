@@ -8,17 +8,16 @@ import {
   styled,
   useTheme,
   Box,
-} from '@mui/material'; // Adjust import path as needed
+} from '@mui/material';
 import AuthLayout from '@/components/auth/AuthLayout';
 import CustomizeTextField from '@/components/form-field/text-field';
+import { useRouter } from 'next/router';
 
-// Validation functions
 const validateEmail = (email: string) => {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return re.test(String(email).toLowerCase());
 };
 
-// Styled components
 const ErrorText = styled(Box)(({ theme }) => ({
   color: theme.palette.error.main,
   fontSize: theme.typography.body2.fontSize,
@@ -58,9 +57,9 @@ const LoginButton = styled(Button)(({ theme }) => ({
   transition: 'background 0.7s ease',
 }));
 
-// Main component
 export default function LoginPage() {
   const theme = useTheme();
+  const router = useRouter();
   const [credentials, setCredentials] = useState({
     email: '',
     password: '',
@@ -89,6 +88,10 @@ export default function LoginPage() {
   };
   const handleBlur = (field: string) => () => {
     setTouched((prev) => ({ ...prev, [field]: true }));
+  };
+
+  const handleClick = () => {
+    router.push('/auth/forgot-password');
   };
 
   return (
@@ -173,6 +176,7 @@ export default function LoginPage() {
                       fontSize: '0.875rem',
                       fontWeight: '600',
                     }}
+                    onClick={handleClick}
                   >
                     Forgot password
                   </Button>
