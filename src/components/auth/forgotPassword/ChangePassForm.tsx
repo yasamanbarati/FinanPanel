@@ -1,11 +1,10 @@
 import { Form, Input, useForm } from '@/components/rhf';
-import { Divider, Stack, Typography } from '@mui/material';
+import { Button, Divider, Stack, Typography } from '@mui/material';
 import React from 'react';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation } from '@tanstack/react-query';
 import { changePassword } from '@/services/servers/api/api.auth';
-import { MButton } from '@/components/mui_extend';
 //=======================================//
 export default function ChangePassForm({
   changeStep,
@@ -61,21 +60,21 @@ export default function ChangePassForm({
           required
         />
         <Stack direction={'row'} spacing={1}>
-          <MButton
+          <Button
             variant="outlined"
             onClick={() => changeStep('forget')}
             fullWidth
           >
             Cancel
-          </MButton>
-          <MButton
+          </Button>
+          <Button
             variant="contained"
             onClick={handleSubmit(submit)}
-            isLoading={isPending}
+            // isLoading={isPending}
             fullWidth
           >
             Continue
-          </MButton>
+          </Button>
         </Stack>
       </Form>
     </Stack>

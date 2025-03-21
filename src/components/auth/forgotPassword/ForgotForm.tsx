@@ -1,5 +1,5 @@
 import React from 'react';
-import { Divider, Stack, Typography } from '@mui/material';
+import { Button, Divider, Stack, Typography } from '@mui/material';
 import { Form, Input, useForm } from '@/components/rhf';
 import { useMutation } from '@tanstack/react-query';
 import { forgotPassword } from '@/services/servers/api/api.auth';
@@ -8,7 +8,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useSetting } from '@/services/servers/hook/useSetting';
 import { useRouter } from 'next/navigation';
 import { PATH } from '@/services/utils/constant';
-import { MButton } from '@/components/mui_extend';
 //==================================//
 export default function ForgotForm({
   changeStep,
@@ -63,21 +62,21 @@ export default function ForgotForm({
           required
         />
         <Stack direction={'row'} spacing={1}>
-          <MButton
+          <Button
             variant="outlined"
             onClick={() => router.push(PATH.singIn)}
             fullWidth
           >
             Cancel
-          </MButton>
-          <MButton
+          </Button>
+          <Button
             variant="contained"
             onClick={handleSubmit(submit)}
-            isLoading={isPending}
+            // isLoading={isPending}
             fullWidth
           >
             Continue
-          </MButton>
+          </Button>
         </Stack>
       </Form>
     </Stack>
