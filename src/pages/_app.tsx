@@ -18,7 +18,24 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <Toaster position="bottom-right" reverseOrder={false} />
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+          toastOptions={{
+            success: {
+              style: {
+                background: '#4caf50',
+                color: '#fff',
+              },
+            },
+            error: {
+              style: {
+                background: '#f44336',
+                color: '#fff',
+              },
+            },
+          }}
+        />
         <Component {...pageProps} />
       </ThemeProvider>
     </QueryClientProvider>
