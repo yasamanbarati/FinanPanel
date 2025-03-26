@@ -30,8 +30,9 @@ export const palette = {
     light: '#B6CAAE',
   },
   warning: {
-    main: '#E8B93F',
-    light: '#EBDCB3',
+    main: '#f3ead1!important',
+    dark: '#E8B93F!important',
+    light: '#ebdcb3!important',
   },
   black: {
     dark: '#3F3F46',
@@ -70,6 +71,7 @@ declare module '@mui/material/Button' {
     primary: true;
     secondary: true;
     info: true;
+    warning: true;
     error: true;
     success: true;
     black: true;

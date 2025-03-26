@@ -1,5 +1,5 @@
 export const API = {
-  baseUrl: 'https://financial.smbm.world/api/admin',
+  baseUrl: 'https://financial.smbm.ir/api/admin',
   login: 'login',
   register: 'register',
   verifyRegister: '/register/verify',
