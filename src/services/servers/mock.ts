@@ -4,6 +4,8 @@ import {
   ContractListType,
   ContractManagementProps,
   UserListProps,
+  UserContractProps,
+  userTransactionsType,
 } from './type';
 import {
   ManageAccountIcon,
@@ -620,3 +622,59 @@ export const transactionsList: UserListProps[] = [
     avatar: '/static/images/user-4.svg',
   },
 ];
+export const userContractsList: UserContractProps[] = [
+  {
+    id: 0,
+    invoice: '#100958',
+    status: 0, //In Progress
+    imageSrc: '/static/images/Group.png',
+    title: 'Lutetium',
+    time: 6,
+    amount: 500.0,
+    profit: 25,
+    profitAmount: 80,
+    startDate: '10/10/2024',
+    endDate: '10/10/2025',
+  },
+  {
+    id: 1,
+    invoice: '#100958',
+    status: 1, //Withdraw
+    imageSrc: '/static/images/Group (2).png',
+    title: 'Lutetium',
+    time: 6,
+    amount: 500.0,
+    profit: 25,
+    profitAmount: 80,
+    startDate: '10/10/2024',
+    endDate: '10/10/2025',
+  },
+  {
+    id: 2,
+    invoice: '#100958',
+    status: 2, //Expired
+    imageSrc: '/static/images/Group (1).png',
+    title: 'Lutetium',
+    time: 6,
+    amount: 500.0,
+    profit: 25,
+    profitAmount: 80,
+    startDate: '10/10/2024',
+    endDate: '10/10/2025',
+  },
+];
+export const userTransactions: userTransactionsType = {
+  userId: '#LM24859',
+  withdraw: 45.5,
+  makeContract: 500,
+  deposit: 200,
+  transactions: [
+    {
+      date: 'July 3, 2024',
+      type: 'Transfer',
+      user: 'Emily Davis',
+      code: '#LM100253',
+      amount: '$45.50',
+    },
+  ],
+};

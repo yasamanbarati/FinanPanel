@@ -30,7 +30,7 @@ export interface ContractListType {
   limitContrcts: number;
   activeContracts: number;
   description?: string;
-  ListFeatures?: ListFeaturesProps[];
+  ListFeatures?: ListFeaturesProps[]; 
 }
 
 export interface ListFeaturesProps {
@@ -65,4 +65,32 @@ export interface UserListProps {
   // };
   // icon: ReactElement | SvgIconProps | SVGRectElement | any;
   // title: string;
+}
+export interface UserContractProps {
+  id: number;
+  invoice: string;
+  status: number; //0 or 1 or 2
+  imageSrc: string;
+  title: string;
+  time: number;
+  amount: number;
+  profitAmount: number;
+  profit: number;
+  startDate: string;
+  endDate: string;
+}
+interface Transaction {
+  date: string;
+  type: string;
+  user: string;
+  code: string;
+  amount: string;
+}
+
+export interface userTransactionsType {
+  userId: string;
+  withdraw: number;
+  makeContract: number;
+  deposit: number;
+  transactions: Transaction[];
 }
