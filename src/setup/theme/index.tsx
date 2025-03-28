@@ -74,7 +74,7 @@ export default function ThemeProvider({ children }: ChildComponentProps) {
       },
       body2: {
         fontSize: '0.75rem', //12
-        fontWeight: '600',
+        fontWeight: '400',
         lineHeight: '15.12px',
       },
       subtitle1: {
