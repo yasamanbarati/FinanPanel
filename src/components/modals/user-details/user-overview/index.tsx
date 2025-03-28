@@ -50,9 +50,9 @@ const UserOverView = ({ Data }: Props) => {
                 variant="body2"
                 sx={{ color: '#667085', fontWeight: '400' }}
               >
-                Phone Number
+                Last Login
               </Typography>
-              <Typography variant="body2">{Data.phone}</Typography>
+              <Typography variant="body2">{Data.lastLogin}</Typography>
             </Grid>
           </Grid>
           <Grid item container xs={12} alignItems="center">
@@ -61,9 +61,9 @@ const UserOverView = ({ Data }: Props) => {
                 variant="body2"
                 sx={{ color: '#667085', fontWeight: '400' }}
               >
-                Last Login
+                Phone Number
               </Typography>
-              <Typography variant="body2">{Data.lastLogin}</Typography>
+              <Typography variant="body2">{Data.phone}</Typography>
             </Grid>
             <Grid item xs={8} display="flex" flexDirection="column" gap={4}>
               <Typography

@@ -7,23 +7,17 @@ import {
   styled,
   Tabs,
   Tab,
-  Box,
   useTheme,
+  Chip,
+  ChipProps,
 } from '@mui/material';
-import BasicModal from '..';
 import { Close } from '@mui/icons-material';
+import BasicModal from '..';
 import UserOverView from './user-overview';
 import UserContracts from './user-contracts';
 import UserTransactions from './user-transactions';
+import { userContractsList } from '@/services/servers/mock';
 
-const StatusBadge = styled('div')(({ theme }) => ({
-  backgroundColor: theme.palette.success.light,
-  border: `1px solid ${theme.palette.success.main}`,
-  borderRadius: theme.shape.borderRadius,
-  padding: theme.spacing(0.5, 2),
-  display: 'inline-flex',
-  alignItems: 'center',
-}));
 
 const StyledTab = styled(Tab)(({ theme }) => ({
   minWidth: 79,
@@ -41,10 +35,16 @@ const StyledTab = styled(Tab)(({ theme }) => ({
     borderColor: 'transparent',
   },
 }));
+enum UserStatus {
+  Active = 0,
+  Pending = 1,
+  Suspended = 2,
+}
 
 interface UserData {
   userId: string;
   name: string;
+  status?: UserStatus;
   avatar: string;
   email: string;
   registerDate: string;
@@ -61,10 +61,10 @@ interface UserDetailsModalProps {
   onClose: () => void;
   data?: UserData;
 }
-
 const DEFAULT_USER_DATA: UserData = {
   userId: '#LM24859',
   name: 'Sofia Miller',
+  status: UserStatus.Active,
   avatar: '/static/images/user-4.svg',
   email: 'Sofiamiller12@gmail.com',
   registerDate: '10/10/2024',
@@ -83,18 +83,43 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
 }) => {
   const theme = useTheme();
   const [activeTab, setActiveTab] = useState(0);
-  const userData = data || DEFAULT_USER_DATA;
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    setActiveTab(newValue);
+  const userData = useMemo(
+    () => ({
+      ...DEFAULT_USER_DATA,
+      ...data,
+    }),
+    [data],
+  );
+
+  const getStatusConfig = (
+    status?: UserStatus,
+  ): {
+    color: ChipProps['color'];
+    label: string;
+  } => {
+    switch (status) {
+      case UserStatus.Active:
+        return { color: 'success', label: 'Active' };
+      case UserStatus.Pending:
+        return { color: 'warning', label: 'Pending' };
+      case UserStatus.Suspended:
+        return { color: 'error', label: 'Suspended' };
+      default:
+        return { color: 'default', label: 'Unknown' };
+    }
   };
-
   const modalContent = useMemo(() => {
     switch (activeTab) {
       case 0:
         return <UserOverView Data={userData} />;
       case 1:
-        return <UserContracts />;
+        return (
+          <UserContracts
+            data={userContractsList}
+            statusLabels={['In Progress', 'Withdraw', 'Expired']}
+          />
+        );
       case 2:
         return <UserTransactions />;
       default:
@@ -113,7 +138,7 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
         padding: '24px',
         width: '90%',
         maxWidth: '512px',
-        minHeight: '487px',
+        maxHeight: '487px',
       }}
     >
       <IconButton
@@ -165,27 +190,36 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
           </Grid>
         </Grid>
         <Grid item>
-          <StatusBadge>
-            <Typography variant="caption" fontWeight={600} color="#5F5F5F">
-              Active
-            </Typography>
-          </StatusBadge>
+          <Chip
+            variant="outlined"
+            {...getStatusConfig(userData.status)}
+            sx={{
+              '& .MuiChip-label': {
+                fontSize: '0.75rem',
+                fontWeight: 600,
+                px: 0.5,
+              },
+            }}
+          />
         </Grid>
       </Grid>
 
       <Tabs
         value={activeTab}
-        onChange={handleTabChange}
+        onChange={(_, newValue) => setActiveTab(newValue)}
         sx={{
-          '& .MuiTabs-flexContainer': { gap: '6px' },
-          '& .MuiTabs-indicator': {
-            display: 'none',
-          },
+          '& .MuiTabs-flexContainer': { gap: 4 },
+          '& .MuiTabs-indicator': { display: 'none' },
         }}
       >
-        <StyledTab label="overview" />
-        <StyledTab label="contracts" />
-        <StyledTab label="transactions" />
+        {['Overview', 'Contracts', 'Transactions'].map((label, index) => (
+          <StyledTab
+            key={label}
+            label={label}
+            id={`user-tab-${index}`}
+            aria-controls={`user-tabpanel-${index}`}
+          />
+        ))}
       </Tabs>
 
       {modalContent}
