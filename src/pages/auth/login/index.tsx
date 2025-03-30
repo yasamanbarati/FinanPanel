@@ -74,6 +74,7 @@ export default function LoginPage() {
     () => credentials.email.trim() && credentials.password.trim(),
     [credentials.email, credentials.password],
   );
+
   const emailError = useMemo(() => {
     if (!touched.email) return false;
     return !validateEmail(credentials.email);
@@ -86,6 +87,7 @@ export default function LoginPage() {
         e.target.type === 'checkbox' ? e.target.checked : e.target.value,
     });
   };
+
   const handleBlur = (field: string) => () => {
     setTouched((prev) => ({ ...prev, [field]: true }));
   };

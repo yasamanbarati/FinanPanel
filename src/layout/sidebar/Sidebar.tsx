@@ -25,6 +25,7 @@ import { Icon } from '@/components/common';
 import { LogOutIcon, SettingIcon } from '@/components/icons';
 import { SidebarItems } from '@/services/servers/mock';
 import { MenuItemType } from '@/services/servers/type';
+import { useAuth } from '@/services/servers/context/AuthContext';
 
 interface Props {
   drawerWidth: number;
@@ -169,6 +170,8 @@ const MenuItemDiv = styled('div')(({ theme }) => ({
 }));
 
 const Menu = ({ items }: { items: MenuItemType[] }) => {
+  const { logout } = useAuth();
+
   return (
     <>
       <Toolbar
@@ -215,7 +218,7 @@ const Menu = ({ items }: { items: MenuItemType[] }) => {
             <SettingIcon />
             Setting
           </Link>
-          <Link href={'/'}>
+          <Link onClick={logout} href={'/login'}>
             <LogOutIcon />
             Log out
           </Link>

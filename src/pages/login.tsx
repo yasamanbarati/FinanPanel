@@ -70,11 +70,6 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
 
-  const isDisabled =
-    !credentials.email ||
-    !credentials.password ||
-    credentials.password.trim().length < 8;
-
   const emailError = useMemo(() => {
     if (!touched.email) return false;
     return !validateEmail(credentials.email);
@@ -112,7 +107,7 @@ export default function LoginPage() {
   return (
     <AuthLayout title="Login">
       <RightPanel item xs={12} tablet={6}>
-        <LoginCard component="form" onSubmit={handleSubmit} noValidate>
+        <LoginCard>
           <Typography variant="h2">Login to your panel</Typography>
           <Typography variant="body1" color="black.dark" mb={4}>
             See what is going on with your business
@@ -171,7 +166,11 @@ export default function LoginPage() {
                     <Checkbox
                       name="remember"
                       checked={credentials.remember}
-                      onChange={handleChange}
+                      onClick={() =>
+                        setCredentials((prevInfo) => {
+                          return { ...prevInfo, remember: !prevInfo.remember };
+                        })
+                      }
                       color="primary"
                     />
                   }
@@ -205,15 +204,19 @@ export default function LoginPage() {
                 fullWidth
                 variant="contained"
                 type="submit"
-                disabled={!isFormValid}
+                disableElevation
+                disabled={!isFormValid || isLoading}
+                onClick={handleSubmit}
                 sx={{
-                  background: isFormValid
-                    ? 'linear-gradient(89.46deg, #4283C6 -45.88%, #204060 100%)'
-                    : '#c6daee',
+                  background:
+                    !isFormValid || isLoading
+                      ? '#c6daee'
+                      : 'linear-gradient(89.46deg, #4283C6 -45.88%, #204060 100%)',
                   '&:hover': {
-                    background: isFormValid
-                      ? 'linear-gradient(89.46deg, #3874AD -45.88%, #1A3452 100%)'
-                      : '#c6daee',
+                    background:
+                      !isFormValid || isLoading
+                        ? '#c6daee'
+                        : 'linear-gradient(89.46deg, #3874AD -45.88%, #1A3452 100%)',
                   },
                   '&.MuiButtonBase-root.Mui-disabled': {
                     backgroundColor: '#c6daee!important',

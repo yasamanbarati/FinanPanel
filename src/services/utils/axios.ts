@@ -1,19 +1,8 @@
 import Axios from 'axios';
-// import { API } from './constants';
-// import { store } from '@/redux/store';
-// import {
-//   closeGetUser,
-//   logOut,
-//   setIsSession,
-// } from '@/redux/slices/prescription';
-import toast from 'react-hot-toast';
-import { API } from './constant';
 
-// function logOutOnTokenExpired() {
-//   localStorage.removeItem('token');
-//   store.dispatch(logOut());
-//   window.location.href = '/auth/login';
-// }
+import toast from 'react-hot-toast';
+import Cookies from 'js-cookie';
+import { API } from './constant';
 
 export const axios = Axios.create({
   baseURL: API.baseUrl,
@@ -31,39 +20,41 @@ if (typeof window !== 'undefined') {
 }
 axios.interceptors.response.use(
   (response) => {
-    // Laravel user custom error
     if (response?.data?.status == false) {
       if (typeof response?.data?.message == 'string') {
         toast.error(response?.data?.message);
+        throw new Error(
+          `Request failed with status ${response?.data?.message}`,
+        );
       }
     }
-    if (response?.data?.status == true) {
-      toast.success(response?.data?.message);
-    }
+    // if (response?.data?.status == true) {
+    //   toast.success(response?.data?.message);
+    // }
     return response;
   },
   async (error) => {
     if (error?.response?.status == 422 || error?.response?.status == 403) {
       toast.error(error?.response?.data?.message);
+      throw new Error(
+        `Request failed with status ${error?.response?.data?.message}`,
+      );
     }
     if (error?.response?.status === 401) {
-      // logOutOnTokenExpired();
       return Promise.reject(error);
     }
 
     return error;
   },
 );
+
 export function getToken() {
   if (typeof window !== 'undefined') {
-    return localStorage.getItem('token');
+    // Attempt to get token from cookies first (set on login).
+    const tokenFromCookie = Cookies.get('token');
+    if (tokenFromCookie) return tokenFromCookie;
   }
   return null;
 }
-// export async function getUser() {
-//   if (typeof window !== 'undefined') {
-//     return localStorage.getItem('user');
-//   }
-//   return null;
-// }
+
 export default axios;

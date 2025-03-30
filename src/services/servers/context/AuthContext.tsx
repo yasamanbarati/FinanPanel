@@ -1,14 +1,17 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useMutation } from '@tanstack/react-query';
-import { login as loginApi } from '@/services/servers/api/api.auth';
 import toast from 'react-hot-toast';
+import { login as loginApi } from '@/services/servers/api/api.auth';
+import { useRouter } from 'next/router';
 
 interface User {
   name: string;
   email: string;
   image: string;
   balance: number;
+  id: string;
+  is_active: number;
 }
 
 interface AuthContextType {
@@ -29,28 +32,31 @@ export function useAuth() {
   return useContext(AuthContext) as AuthContextType;
 }
 
-async function fakeLoginApi(email: string, password: string) {
-  return new Promise<User>((resolve, reject) => {
-    setTimeout(() => {
-      if (password === '12345678') {
-        resolve({
-          name: 'Sara Madison',
-          email,
-          image: '/static/images/avatar.jpg',
-          balance: 2400,
-        });
-      } else {
-        reject(new Error('Wrong password!'));
-      }
-    }, 800);
-  });
-}
+// async function fakeLoginApi(email: string, password: string) {
+//   return new Promise<User>((resolve, reject) => {
+//     setTimeout(() => {
+//       if (password === '12345678') {
+//         resolve({
+//           name: 'Sara Madison',
+//           email,
+//           image: '/static/images/avatar.jpg',
+//           balance: 2400,
+//         });
+//       } else {
+//         reject(new Error('Wrong password!'));
+//       }
+//     }, 800);
+//   });
+// }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const storedUser = Cookies.get('app_user');
+    const storedUser = Cookies.get('user_info');
+
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
@@ -72,7 +78,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       formData.append('password', password);
 
       const response = await loginApi(formData);
-      console.log({ response });
 
       return response;
     },
@@ -80,27 +85,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setIsLoading(true);
     },
     onSuccess: (data: any, { rememberMe }) => {
-      console.log({ rememberMe });
-      console.log({ data });
+      const { authorisation: userData } = data;
 
-      const { authorisation } = data;
+      const userInfo = {
+        id: userData.user.id,
+        name: userData.user.name,
+        email: userData.user.email,
+        is_active: userData.user.is_active,
+        balance: userData.user.balance,
+        image: userData.user.image || '/static/images/avatar.png',
+      };
 
-      // const userData = {
-      //   name: user.name,
-      //   email: user.email,
-      //   image: user.image || '/static/images/avatar.jpg',
-      //   balance: user.balance || 0,
-      // };
-
-      // setUser(userData);
+      setUser(userInfo);
 
       if (rememberMe) {
-        Cookies.set('token', authorisation.token, { expires: 10 });
-        // Cookies.set('app_user', JSON.stringify(userData), { expires: 10 });
+        Cookies.set('token', userData.token, { expires: 10 });
+        Cookies.set('user_info', JSON.stringify(userInfo), { expires: 10 });
       } else {
-        Cookies.set('token', authorisation.token);
-        // Cookies.set('app_user', JSON.stringify(userData));
+        Cookies.set('token', userData.token);
+        Cookies.set('user_info', JSON.stringify(userInfo));
       }
+      router.push('/');
 
       toast.success(data?.message || 'Login successful!');
     },
@@ -121,7 +126,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = () => {
     setUser(null);
     Cookies.remove('token');
-    Cookies.remove('app_user');
+    Cookies.remove('user_info');
   };
 
   const value: AuthContextType = {
