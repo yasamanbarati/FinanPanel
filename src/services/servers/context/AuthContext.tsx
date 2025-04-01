@@ -15,7 +15,7 @@ interface User {
 }
 
 interface AuthContextType {
-  user: User | null;
+  user: User | null | 'logOut';
   isAuthenticated: boolean;
   login: (
     email: string,
@@ -52,13 +52,15 @@ export function useAuth() {
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null | 'logOut'>(null);
 
   useEffect(() => {
     const storedUser = Cookies.get('user_info');
 
     if (storedUser) {
       setUser(JSON.parse(storedUser));
+    } else {
+      setUser('logOut');
     }
   }, []);
 
@@ -88,12 +90,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const { authorisation: userData } = data;
 
       const userInfo = {
-        id: userData.user.id,
-        name: userData.user.name,
-        email: userData.user.email,
-        is_active: userData.user.is_active,
-        balance: userData.user.balance,
-        image: userData.user.image || '/static/images/avatar.png',
+        id: userData.admin.id,
+        name: userData.admin.name,
+        email: userData.admin.email,
+        is_active: userData.admin.is_active,
+        balance: userData.admin.balance,
+        image: userData.admin.image || '/static/images/avatar.png',
       };
 
       setUser(userInfo);
