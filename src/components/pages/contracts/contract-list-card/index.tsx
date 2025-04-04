@@ -94,6 +94,8 @@ const ContractListCard = ({ contractList }: Props) => {
 
   const handleEditClose = () => setOpenEditModal(false);
 
+  console.log(contractList.description);
+
   return (
     <CustomizeCard item container xs={12} xl={6}>
       <Grid item xs={4} flexDirection="column">
@@ -155,7 +157,8 @@ const ContractListCard = ({ contractList }: Props) => {
           <DeleteModal
             open={open}
             ImageSrc={contractList.ImageSrc}
-            title={contractList.title}
+            title={`Delete ${contractList.title} Contract?`}
+            description={contractList.description as string}
             onClose={handleClose}
           />
           <EditModal

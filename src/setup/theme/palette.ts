@@ -36,9 +36,9 @@ export const palette = {
   },
   black: {
     dark: '#3F3F46',
-    main: '#18181B',
+    main: '#18181B!important',
     light: '#CBCAD7',
-    contrastText: '#667085',
+    contrastText: '#667085!important',
   },
   borderBG: '#E0E0E0',
 };

@@ -17,8 +17,6 @@ import {
 import CustomizeTable from '@/components/table';
 import { transactionsList } from '@/services/servers/mock';
 import { CalendarIcon, SearchIcon } from '@/components/icons';
-import { DeleteIcon, PersonIcon, ViewIcon } from '@/components/icons';
-import UserDetailsModal from '@/components/modals/user-details';
 
 const SearchInput = styled(OutlinedInput)(({ theme }) => ({
   display: 'flex',
@@ -83,66 +81,41 @@ const TransactionList = () => {
   const [periodAnchor, setPeriodAnchor] = useState<null | HTMLElement>(null);
   const [searchText, setSearchText] = useState('');
   const [page, setPage] = useState(1);
-  const [openProfile, setOpenProfile] = useState(false);
-  const [openDetails, setOpenDetails] = useState(false);
-  const [openDelete, setOpenDelete] = useState(false);
   const itemsPerPage = 10;
 
-  const handleOpenProfile = () => setOpenProfile(true);
-  const handleOpenDetails = () => setOpenDetails(true);
-  const handleOpenDelete = () => setOpenDelete(true);
-
-  const handleCloseDetails = () => setOpenDetails(false);
-  const handleCloseProfile = () => setOpenProfile(false);
-  const handleCloseDelete = () => setOpenDelete(false);
-
   const transactionType = useMemo(() => {
-    switch (value) {
-      case 0:
-        return 'All';
-      case 1:
-        return 'Investment';
-      case 2:
-        return 'Profits';
-      case 3:
-        return 'Transfer';
-      case 4:
-        return 'Deposit';
-      case 5:
-        return 'Withdraw';
-      default:
-        return 'All';
-    }
+    const types = [
+      'All',
+      'Investment',
+      'Profits',
+      'Transfer',
+      'Deposit',
+      'Withdrawals',
+    ];
+    return types[value] || 'All';
   }, [value]);
 
-  // فیلتر کردن داده‌ها بر اساس نوع تراکنش
   const filteredData = useMemo(() => {
-    if (transactionType === 'All') {
-      return transactionsList;
-    }
+    if (transactionType === 'All') return transactionsList;
     return transactionsList.filter((item) => item.type === transactionType);
   }, [transactionType]);
 
-  // محاسبه تعداد صفحات بر اساس داده‌های فیلتر شده
   const totalPages = useMemo(
     () => Math.ceil(filteredData.length / itemsPerPage),
     [filteredData.length],
   );
 
-  // داده‌های صفحه فعلی
   const paginatedData = useMemo(
     () => filteredData.slice((page - 1) * itemsPerPage, page * itemsPerPage),
     [filteredData, page],
   );
 
   const handlePageChange = useCallback(
-    (_: React.ChangeEvent<unknown>, value: number) => {
-      setPage(value);
-    },
+    (_: React.ChangeEvent<unknown>, value: number) => setPage(value),
     [],
   );
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     setPage(1);
   };
@@ -151,52 +124,37 @@ const TransactionList = () => {
     setPeriodAnchor(event.currentTarget);
   };
 
-  const handlePeriodClose = () => {
-    setPeriodAnchor(null);
-  };
+  const handlePeriodClose = () => setPeriodAnchor(null);
 
   const handleSearchChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      const text = event.target.value;
-      setSearchText(text);
+      setSearchText(event.target.value);
       setPage(1);
     },
     [],
   );
 
   return (
-    <Paper
-      sx={{
-        borderRadius: 14,
-        boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
-        overflow: 'hidden',
-        width: '100%',
-        padding: '24px',
-      }}
-    >
-      {/* Header Section */}
+    <Paper sx={{
+      borderRadius: 14,
+      boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
+      overflow: 'hidden',
+      width: '100%',
+      p: '24px',
+    }}>
       <Box sx={{ p: 3, borderBottom: 1, borderColor: 'divider' }}>
-        {/* Tabs */}
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 16 }}>
           <Tabs
             value={value}
             onChange={handleTabChange}
-            sx={{
-              '& .MuiTabs-indicator': {
-                backgroundColor: '#53389e',
-                height: 2,
-              },
-            }}
+            sx={{ '& .MuiTabs-indicator': { backgroundColor: '#53389e', height: 2 } }}
           >
-            <StyledTab label="All" />
-            <StyledTab label="Investment" />
-            <StyledTab label="Profits" />
-            <StyledTab label="Transfer" />
-            <StyledTab label="Deposit" />
-            <StyledTab label="Withdrawals" />
+            {['All', 'Investment', 'Profits', 'Transfer', 'Deposit', 'Withdrawals'].map(
+              (label, index) => (
+                <StyledTab key={label} label={label} value={index} />
+              ))}
           </Tabs>
 
-          {/* Search and Period Select */}
           <Box sx={{ display: 'flex', gap: 4 }}>
             <SearchInput
               placeholder="Search"
@@ -248,41 +206,10 @@ const TransactionList = () => {
             ]}
             data={paginatedData}
             statusLabels={['Success', 'Failed', 'Pending']}
-            SettingsMenuitems={[
-              {
-                title: 'View Details',
-                icon: (
-                  <ViewIcon
-                    width={'16px!important'}
-                    height={'16px!important'}
-                  />
-                ),
-                handelOpenModel: handleOpenDetails,
-              },
-              {
-                title: 'View Profile',
-                icon: (
-                  <PersonIcon
-                    width={'16px!important'}
-                    height={'16px!important'}
-                  />
-                ),
-                handelOpenModel: handleOpenProfile,
-              },
-              {
-                title: 'Delete Transaction',
-                icon: (
-                  <DeleteIcon
-                    width={'16px!important'}
-                    height={'16px!important'}
-                  />
-                ),
-                handelOpenModel: handleOpenDelete,
-              },
-            ]}
+            transactionType={transactionType}
           />
-          <UserDetailsModal open={openDetails} onClose={handleCloseDetails} />
         </div>
+
         {totalPages > 1 && (
           <Box sx={{ display: 'flex', justifyContent: 'center', py: 3 }}>
             <Pagination
@@ -299,7 +226,6 @@ const TransactionList = () => {
                       color: 'common.white',
                       '&:hover': { backgroundColor: 'primary.dark' },
                     },
-                    '& .MuiSvgIcon-root': { fill: 'currentColor' },
                   }}
                 />
               )}
@@ -308,6 +234,7 @@ const TransactionList = () => {
         )}
       </Box>
     </Paper>
+
   );
 };
 

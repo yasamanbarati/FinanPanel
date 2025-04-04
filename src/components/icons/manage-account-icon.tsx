@@ -5,6 +5,8 @@ export function ManageAccountIcon(props: SvgIconProps) {
     <SvgIcon
       width="18"
       height="15"
+      viewBox="0 0 18 15"
+      sx={{ marginRight: '8px' }}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
