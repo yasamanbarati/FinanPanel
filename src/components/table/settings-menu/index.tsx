@@ -1,6 +1,5 @@
-import { ReactElement, useState } from 'react';
+import { ReactElement } from 'react';
 import { Menu, MenuItem, Box, styled, SvgIconProps } from '@mui/material';
-import { DeleteIcon, PersonIcon, ViewIcon } from '@/components/icons';
 
 const StyledMenu = styled(Menu)(({ theme }) => ({
   '& .MuiPaper-root': {
