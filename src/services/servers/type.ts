@@ -82,7 +82,7 @@ export interface UserContractProps {
   startDate: string;
   endDate: string;
 }
-interface Transaction {
+interface TransactionType {
   date: string;
   type: string;
   user: string;
@@ -95,5 +95,5 @@ export interface userTransactionsType {
   withdraw: number;
   makeContract: number;
   deposit: number;
-  transactions: Transaction[];
+  transactions: TransactionType[];
 }

@@ -675,5 +675,33 @@ export const userTransactions: userTransactionsType = {
       code: '#LM100253',
       amount: '$45.50',
     },
+    {
+      date: 'July 3, 2024',
+      type: 'Transfer',
+      user: 'David Santil',
+      code: '#SB569851',
+      amount: '$20.00',
+    },
+    {
+      date: 'July 1, 2024',
+      type: 'Withdraw',
+      user: 'David Santil',
+      code: '#SB569851',
+      amount: '$45.50',
+    },
+    {
+      date: 'July 1, 2024',
+      type: 'Make Contract',
+      user: 'David Santil',
+      code: '#SB569851',
+      amount: '$500.00',
+    },
+    {
+      date: 'July 1, 2024',
+      type: 'Deposit',
+      user: 'David Santil',
+      code: '#SB569851',
+      amount: '$200.00',
+    },
   ],
 };
