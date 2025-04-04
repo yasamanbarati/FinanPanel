@@ -6,8 +6,9 @@ import { TrashIcon } from '@/components/icons';
 
 interface Props {
   open: boolean;
-  ImageSrc: string;
+  ImageSrc?: string;
   title: string;
+  description?: string | undefined;
   onClose: () => void; // اضافه شده
 }
 
@@ -18,16 +19,36 @@ const CustomizeDiv = styled('div')(({ theme }) => ({
   alignItems: 'center',
   gap: '8px',
 }));
-const CustomizeImageDiv = styled('div')(({ theme }) => ({
+const CustomizeImageDiv = styled('div', {
+  shouldForwardProp: (prop) => prop !== 'hasImage',
+})<{ hasImage: boolean }>(({ theme, hasImage }) => ({
   position: 'relative',
-  '& div': {
+  ...(!hasImage && {
+    display: 'flex',
+    width: '100%',
+    height: '70px',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }),
+  '& > div': {
     position: 'absolute',
     width: '64px',
     height: '64px',
     borderRadius: '24px',
     background: '#fbfbfb',
-    bottom: '-27px',
-    right: '-17px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...(hasImage
+      ? {
+          top: '72px',
+          right: '-12px',
+        }
+      : {
+          position: 'relative',
+          top: 0,
+          right: 0,
+        }),
     '& svg': {
       width: '48px',
       height: '48px',
@@ -51,7 +72,18 @@ const CustomizeButtonDiv = styled('div')(({ theme }) => ({
     },
   },
 }));
-const DeleteModal = ({ open, ImageSrc, title, onClose }: Props) => {
+const DeleteModal = ({
+  open,
+  ImageSrc,
+  title,
+  description,
+  onClose,
+}: Props) => {
+  const defaultDescription = `
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+    sed do eiusmod tempor incididunt ut labore et dolore magna.
+  `;
+
   return (
     <BasicModal
       open={open}
@@ -59,24 +91,26 @@ const DeleteModal = ({ open, ImageSrc, title, onClose }: Props) => {
       sxStyle={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '48px',
+        gap: '32px',
         alignItems: 'center',
         padding: '40px',
         width: '90%',
         maxWidth: '557px',
       }}
     >
-      <CustomizeImageDiv>
+      <CustomizeImageDiv hasImage={!!ImageSrc}>
         <div>
           <TrashIcon />
         </div>
-        <Image
-          src={ImageSrc}
-          alt={title}
-          width={105}
-          height={104}
-          objectFit="cover"
-        />
+        {ImageSrc && (
+          <Image
+            src={ImageSrc}
+            alt={title}
+            width={105}
+            height={104}
+            style={{ objectFit: 'cover' }}
+          />
+        )}
       </CustomizeImageDiv>
       <CustomizeDiv>
         <Typography
@@ -85,16 +119,16 @@ const DeleteModal = ({ open, ImageSrc, title, onClose }: Props) => {
           color="black.main"
           textAlign="center"
         >
-          Delete {title} Contract?
+          {title}
         </Typography>
+
         <Typography
           variant="body1"
           component="p"
           color="black.contrastText"
           textAlign="center"
         >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore.
+          {description || defaultDescription}
         </Typography>
 
         <CustomizeButtonDiv>
