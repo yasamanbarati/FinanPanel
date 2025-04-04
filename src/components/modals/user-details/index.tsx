@@ -16,8 +16,7 @@ import BasicModal from '..';
 import UserOverView from './user-overview';
 import UserContracts from './user-contracts';
 import UserTransactions from './user-transactions';
-import { userContractsList } from '@/services/servers/mock';
-
+import { userContractsList, userTransactions } from '@/services/servers/mock';
 
 const StyledTab = styled(Tab)(({ theme }) => ({
   minWidth: 79,
@@ -102,9 +101,9 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
       case UserStatus.Active:
         return { color: 'success', label: 'Active' };
       case UserStatus.Pending:
-        return { color: 'warning', label: 'Pending' };
+        return { color: 'error', label: 'Failed' };
       case UserStatus.Suspended:
-        return { color: 'error', label: 'Suspended' };
+        return { color: 'warning', label: 'Pending' };
       default:
         return { color: 'default', label: 'Unknown' };
     }
@@ -121,7 +120,7 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
           />
         );
       case 2:
-        return <UserTransactions />;
+        return <UserTransactions data={userTransactions} />;
       default:
         return null;
     }
