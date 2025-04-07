@@ -126,9 +126,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = () => {
-    setUser(null);
+    setUser('logOut');
     Cookies.remove('token');
     Cookies.remove('user_info');
+    router.push('/login');
   };
 
   const value: AuthContextType = {

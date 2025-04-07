@@ -9,7 +9,7 @@ const Container = styled('div')({
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  background: 'rgba(20, 5, 25, 0.8)',
+  background: 'linear-gradient(296.82deg, #1B105F 0%, #3821C5 100%);',
 });
 
 const StyledLoading = styled(CircularProgress)(({ theme }) => ({

@@ -16,12 +16,31 @@ function AppContent({ Component, pageProps }: Omit<AppProps, 'router'>) {
   const { user } = useAuth();
 
   useEffect(() => {
-    // if (user === 'logOut' && router.pathname !== '/login') {
-    //   router.push('/login');
-    // }else if (router.pathname == '/forgot-password'){
-    //   router.push('/')
-    // }
-    setIsLoading(false);
+    const allowedPaths = [
+      '/login',
+      '/forgot-password',
+      '/create-forgot-password',
+      '/verify-password',
+    ];
+
+    if (user === null) {
+      setIsLoading(true);
+      return;
+    }
+
+    if (user === 'logOut') {
+      if (!allowedPaths.includes(router.pathname)) {
+        router.push('/login');
+      } else {
+        setIsLoading(false);
+      }
+    } else {
+      if (allowedPaths.includes(router.pathname)) {
+        router.push('/');
+      } else {
+        setIsLoading(false);
+      }
+    }
   }, [user, router]);
 
   return (

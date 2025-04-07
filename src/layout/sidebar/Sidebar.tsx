@@ -218,7 +218,7 @@ const Menu = ({ items }: { items: MenuItemType[] }) => {
             <SettingIcon />
             Setting
           </Link>
-          <Link onClick={logout} href={'/login'}>
+          <Link onClick={logout} href={''}>
             <LogOutIcon />
             Log out
           </Link>
