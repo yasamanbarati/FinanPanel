@@ -16,9 +16,11 @@ function AppContent({ Component, pageProps }: Omit<AppProps, 'router'>) {
   const { user } = useAuth();
 
   useEffect(() => {
-    if (user === 'logOut' && router.pathname !== '/login') {
-      router.push('/login');
-    }
+    // if (user === 'logOut' && router.pathname !== '/login') {
+    //   router.push('/login');
+    // }else if (router.pathname == '/forgot-password'){
+    //   router.push('/')
+    // }
     setIsLoading(false);
   }, [user, router]);
 

@@ -3,6 +3,10 @@ import { Box, Button, Grid, styled, Typography } from '@mui/material';
 import AuthLayout from '@/components/auth/AuthLayout';
 import CustomizeTextField from '@/components/form-field/text-field';
 import { useRouter } from 'next/router';
+import { useMutation } from '@tanstack/react-query';
+import { forgotPassword } from '@/services/servers/api/api.auth';
+import { SettingContext } from '@/services/servers/context/setting-context';
+import toast from 'react-hot-toast';
 
 const validateEmail = (email: string) => {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -42,35 +46,57 @@ const ErrorText = styled(Box)(({ theme }) => ({
 const ForgetPassword = () => {
   const router = useRouter();
 
-  const [credentials, setCredentials] = useState({
-    email: '',
-  });
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+  const { updateSetting } = React.useContext(SettingContext);
+
   const [touched, setTouched] = useState({
     email: false,
   });
 
   const emailError = useMemo(() => {
     if (!touched.email) return false;
-    return !validateEmail(credentials.email);
-  }, [credentials.email, touched.email]);
+    return !validateEmail(email);
+  }, [email, touched.email]);
 
   const isFormValid = useMemo(
-    () => validateEmail(credentials.email),
-    [credentials.email],
+    () => validateEmail(email),
+    [email],
   );
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCredentials({
-      ...credentials,
-      [e.target.name]: e.target.value,
-    });
+  const handleCancel = () => {
+    router.back();
   };
+
+  const { mutate: forgetMutation, isPending } = useMutation({
+    mutationFn: async (payload: { email: string }) => {
+      const response = await forgotPassword({ email: payload.email });
+      return response;
+    },
+    onSuccess: (response) => {
+      updateSetting('email', email);
+      console.log({ response });
+
+      setEmail('');
+      toast.success(
+        response.message ?? 'Verification code has been sent to your email',
+      );
+      router.push('/verify-password');
+    },
+  });
 
   const handleBlur = (field: string) => () => {
     setTouched((prev) => ({ ...prev, [field]: true }));
   };
-  const handleClick = () => {
-    router.push('/verify-forgot-password');
+  const handleSubmit = (e: React.FormEvent) => { 
+    e.preventDefault();
+    if (!validateEmail(email)) {
+      setError('This email doesn’t look right. Please try again.');
+      return;
+    } else {
+      setError('');
+      forgetMutation({ email });
+    }
   };
 
   return (
@@ -104,8 +130,8 @@ const ForgetPassword = () => {
                 title="email"
                 placeholder="Enter your email address"
                 type="email"
-                value={credentials.email}
-                handleOnChange={handleChange}
+                value={email}
+                handleOnChange={(e) => setEmail(e.target.value)}
                 sxStyle={{
                   width: '100%',
                   display: 'flex',
@@ -143,6 +169,7 @@ const ForgetPassword = () => {
                   height: '56px',
                   borderRadius: '10px',
                 }}
+                onClick={handleCancel}
               >
                 Cancel
               </Button>
@@ -169,7 +196,7 @@ const ForgetPassword = () => {
                     color: 'rgba(255, 255, 255, 1)',
                   },
                 }}
-                onClick={isFormValid ? handleClick : undefined}
+                onClick={isFormValid ? handleSubmit : undefined}
               >
                 Continue
               </Button>

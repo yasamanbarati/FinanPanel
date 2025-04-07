@@ -1,28 +1,42 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useCallback } from 'react';
 
-type SettingKey = 'email';
+type SettingKey = 'email' | 'registerToken' | 'fullName';
 
-interface Types {
+interface SettingContextValue {
   email: string;
-  setSetting: (key: SettingKey, value: string) => void;
+  registerToken: string;
+  fullName: string;
+  updateSetting: (key: SettingKey, value: string) => void;
 }
 
-export const SettingContex = createContext<Types>({
+export const SettingContext = createContext<SettingContextValue>({
   email: '',
-  setSetting: () => {},
+  registerToken: '',
+  fullName: '',
+  updateSetting: () => {},
 });
-//========================================================================//
-export default function SettingProvider({ children }: ChildComponentProps) {
-  const [setting, _setSetting] = useState({
+
+export default function SettingsProvider({ children }: ChildComponentProps) {
+  const [settings, setSettings] = useState({
     email: '',
+    registerToken: '',
+    fullName: '',
   });
 
-  const setSetting = (key: SettingKey, value: any) =>
-    _setSetting((prev) => ({ ...prev, [key]: value }));
+  const updateSetting = useCallback((key: SettingKey, value: string) => {
+    setSettings((prev) => ({ ...prev, [key]: value }));
+  }, []);
 
   return (
-    <SettingContex.Provider value={{ ...setting, setSetting }}>
+    <SettingContext.Provider
+      value={{
+        email: settings.email,
+        registerToken: settings.registerToken,
+        fullName: settings.fullName,
+        updateSetting,
+      }}
+    >
       {children}
-    </SettingContex.Provider>
+    </SettingContext.Provider>
   );
 }
