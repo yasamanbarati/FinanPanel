@@ -102,7 +102,11 @@ const ContractListCard = ({ contractList }: Props) => {
         <Chip
           variant="outlined"
           color={contractList.status ? 'success' : 'error'}
-          label={contractList.status ? 'Active' : 'Deactive'}
+          label={contractList.status ? 'Active' : 'Deactive'}sx={{
+            '& .MuiChip-label': {
+              textOverflow: 'unset',
+            },
+          }}
         />
         <Image
           src={contractList.ImageSrc}
