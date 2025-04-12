@@ -73,7 +73,13 @@ const EditModal = ({ open, card, onClose }: Props) => {
                 variant="outlined"
                 color={card.status ? 'success' : 'error'}
                 label={card.status ? 'Active' : 'Deactive'}
-                sx={{ flexDirection: 'column' }}
+                sx={{
+                  flexDirection: 'column',
+                  '& .MuiChip-label': {
+                    color: '#5F5F5F',
+                    textOverflow: 'unset',
+                  },
+                }}
               />
             </Typography>
             <Typography component="h6" variant="h6" color="secondary">
