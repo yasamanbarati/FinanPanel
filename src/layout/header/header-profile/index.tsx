@@ -1,5 +1,4 @@
-import { NotificationIcon } from '@/components/icons';
-import { profileMenuSetting } from '@/services/servers/mock';
+import React from 'react';
 import { KeyboardArrowDown } from '@mui/icons-material';
 import {
   Avatar,
@@ -12,7 +11,10 @@ import {
   styled,
   Typography,
 } from '@mui/material';
-import React from 'react';
+import { NotificationIcon } from '@/components/icons';
+import { useAuth, User } from '@/services/servers/context/AuthContext';
+import { profileMenuSetting } from '@/services/servers/mock';
+import TextSlider from './text-slider';
 
 // تنظیمات منو
 const PROFILE_SETTINGS = ['Manage Account', 'Change Password', 'Log out'];
@@ -79,10 +81,12 @@ const HeaderProfileContent = styled('div')(({ theme }) => ({
   },
 }));
 const HeaderProfile = () => {
+  const { user, logout } = useAuth();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
   );
 
+  if (!user || user === 'logOut') return null;
   // باز کردن منوی کاربر
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -106,20 +110,12 @@ const HeaderProfile = () => {
 
         {/* دکمه پروفایل کاربر */}
         <IconButton onClick={handleOpenUserMenu}>
-          <Avatar alt="admin-image" src="/static/images/Ellipse.svg" />
-          <ListItemText
-            primary="John Madison"
-            secondary="Admin"
-            primaryTypographyProps={{
-              fontWeight: '600',
-              fontSize: '0.75rem',
-            }}
-            secondaryTypographyProps={{
-              fontWeight: '500',
-              fontSize: '0.625rem',
-              textAlign: 'left',
-            }}
+          <Avatar
+            alt="admin-image"
+            src={(user as User)?.image || '/static/images/Ellipse.svg'}
           />
+
+          <TextSlider text={(user as User).name} />
           <KeyboardArrowDown sx={{ fill: '#9096A2' }} />
         </IconButton>
       </HeaderProfileContent>
