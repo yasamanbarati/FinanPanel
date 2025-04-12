@@ -25,10 +25,10 @@ export const palette = {
     light: '#E2B6B6',
     dark: '#DD331D',
   },
-  success: {
-    main: '#98C729',
-    light: '#B6CAAE',
-  },
+success: {
+  main: '#98C729',
+  light: '#d3dfce',
+},
   warning: {
     main: '#f3ead1!important',
     dark: '#E8B93F!important',
