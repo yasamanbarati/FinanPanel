@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import { userList } from '@/services/servers/mock';
 import { SearchIcon } from '@/components/icons';
-import CustomizeTable from '@/components/table';
+import UserTable from './user-table';
 
 const SearchInput = styled(OutlinedInput)(({ theme }) => ({
   display: 'flex',
@@ -63,7 +63,7 @@ const SuggestionsList = styled(List)(({ theme }) => ({
 const UsersList = () => {
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState('');
-  const itemsPerPage = 10;
+  const itemsPerPage = 13;
 
   const { filteredUsers, suggestions } = useMemo(() => {
     const lowerSearch = searchText.toLowerCase();
@@ -187,24 +187,21 @@ const UsersList = () => {
         </Box>
       </Box>
 
-      <div style={{ overflowX: 'auto' }}>
-        <CustomizeTable
-          headers={[
-            'Full Name',
-            'Email Address',
-            'Wallet Balance',
-            'Register Date',
-            'Last Login',
-            'Status',
-            '',
-          ]}
-          data={filteredUsers.slice(
-            (page - 1) * itemsPerPage,
-            page * itemsPerPage,
-          )}
-          statusLabels={['Active', 'Deactive']}
-        />
-      </div>
+      <UserTable
+        headers={[
+          'Full Name',
+          'Email Address',
+          'Wallet Balance',
+          'Register Date',
+          'Last Login',
+          'Status',
+          '',
+        ]}
+        data={filteredUsers.slice(
+          (page - 1) * itemsPerPage,
+          page * itemsPerPage,
+        )}
+      />
       {totalPages > 1 && (
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 3 }}>
           <Pagination

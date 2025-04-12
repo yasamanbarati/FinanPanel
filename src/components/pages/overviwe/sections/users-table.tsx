@@ -1,21 +1,9 @@
 import React from 'react';
 import {
-  Avatar,
   Card,
   CardContent,
-  Chip,
-  Divider,
-  IconButton,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
   Stack,
   styled,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
   Typography,
 } from '@mui/material';
 import Link from 'next/link';
@@ -92,7 +80,6 @@ const UsersTable = ({ users }: Props) => {
               '',
             ]}
             data={users}
-            statusLabels={['Active', 'Deactive']}
           />
         </div>
       </CardContent>
