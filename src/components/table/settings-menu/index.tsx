@@ -43,7 +43,7 @@ interface SettingsMenuProps {
   items?: {
     title: string;
     icon: ReactElement | SvgIconProps | SVGRectElement | any;
-    handelOpenModel: () => void;
+    handelOpenModel?: () => void;
   }[];
 }
 

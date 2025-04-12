@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -11,22 +11,13 @@ import {
   Avatar,
   Chip,
   styled,
-  IconButton,
-  SvgIconProps,
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { UserListProps } from '@/services/servers/type';
-import { SettingsMenu } from './settings-menu';
 
-interface Props {
+interface TableProps {
   headers: string[];
   data: UserListProps[];
-  statusLabels: string[];
-  SettingsMenuitems?: {
-    title: string;
-    icon: ReactElement | SvgIconProps | SVGRectElement | any;
-    handelOpenModel: () => void;
-  }[];
 }
 
 const StickyTableContainer = styled(TableContainer)(({ theme }) => ({
@@ -38,188 +29,158 @@ const StickyTableContainer = styled(TableContainer)(({ theme }) => ({
     top: 0,
     zIndex: 8,
     transition: 'box-shadow 0.3s',
-    '&.scrolled': {
-      boxShadow: theme.shadows[4],
-    },
+    '&.scrolled': { boxShadow: theme.shadows[4] },
   },
 }));
 
-const CustomizeTable = ({
-  headers,
-  data,
-  statusLabels,
-  SettingsMenuitems,
-}: Props) => {
-  const containerRef = React.useRef<HTMLDivElement>(null);
-  const [isScrolled, setIsScrolled] = React.useState(false);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null,
-  );
-  // باز کردن منوی کاربر
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
+type ModalState = {
+  details: boolean;
+  delete: boolean;
+  contract: boolean;
+  deposit: boolean;
+};
+const CustomizeTable = ({ headers, data }: TableProps) => {
+  const [anchorElUser, setAnchorElUser] = useState<HTMLElement | null>(null);
+  const [modalState, setModalState] = useState<ModalState>({
+    details: false,
+    delete: false,
+    contract: false,
+    deposit: false,
+  });
+  const [selectedUser, setSelectedUser] = useState<UserListProps | null>(null);
 
-  // بستن منوی کاربر
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+  const handleModal = (modal: keyof ModalState, isOpen: boolean) => {
+    setModalState((prev) => ({ ...prev, [modal]: isOpen }));
   };
-  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    setIsScrolled(e.currentTarget.scrollTop > 5);
-  };
+  const handleIconClick = (userData: UserListProps) => {
+    setSelectedUser(userData); // ذخیره کل شیء کاربر
+    const modalMap = {
+      Investment: 'contract',
+      Transfer: 'delete',
+      Deposit: 'deposit',
+    } as const;
 
+    const handleCloseUserMenu = () => {
+      setAnchorElUser(null);
+      setSelectedUser(null);
+    };
+  };
   return (
-    <StickyTableContainer ref={containerRef} onScroll={handleScroll}>
-      <Table stickyHeader>
-        <TableHead className={isScrolled ? 'scrolled' : ''}>
-          <TableRow>
-            {headers?.map((name, index) => (
-              <TableCell
-                key={`header-${index}`}
-                sx={{
-                  fontSize: '0.875rem',
-                  fontWeight: '600',
-                  color: '#667085',
-                  backgroundColor: 'background.paper',
-                  py: 2,
-                  '&:first-of-type': { pl: 3 },
-                  '&:last-of-type': { pr: 3 },
-                }}
-              >
-                {name}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody
-          sx={{
-            '& .MuiTableCell-root': {
-              borderBottom: 'none',
-            },
-          }}
-        >
-          {data?.map((user) => (
-            <TableRow key={user.id}>
-              <TableCell>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                  <Avatar
-                    src={user.avatar}
-                    sx={{ width: '40px', height: '40px' }}
-                  />
-                  <Box>
-                    <Typography
-                      variant="body1"
-                      fontWeight="600"
-                      whiteSpace="nowrap!important"
-                    >
-                      {user.fullName}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {user.id}
-                    </Typography>
-                  </Box>
-                </Box>
-              </TableCell>
-              {user.email && (
-                <TableCell>
-                  <Typography variant="h6">{user.email}</Typography>
-                </TableCell>
-              )}
-              {user.type && (
-                <TableCell>
-                  <Typography variant="h6">{user.type}</Typography>
-                </TableCell>
-              )}
-              {user.amount && (
-                <TableCell>
-                  <Typography variant="h6">{user.amount}</Typography>
-                </TableCell>
-              )}
-              {user.date && (
-                <TableCell>
-                  <Typography variant="h6">
-                    {user.date.toLocaleString() as string}
-                  </Typography>
-                </TableCell>
-              )}
-              {user.walletAddress && (
-                <TableCell>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                      maxWidth: '155px',
-                    }}
-                  >
-                    {user.walletAddress}
-                  </Typography>
-                </TableCell>
-              )}
-              {user.walletBalance && (
-                <TableCell>
-                  <Typography variant="h6">{user.walletBalance}</Typography>
-                </TableCell>
-              )}
-              {user.contractCount && (
-                <TableCell>
-                  <Typography variant="h6">{user.contractCount}</Typography>
-                </TableCell>
-              )}
-              {user.registerDate && (
-                <TableCell>
-                  <Typography variant="h6">{user.registerDate}</Typography>
-                </TableCell>
-              )}
-              {user.lastLogin && (
-                <TableCell>
-                  <Typography variant="h6">{user.lastLogin}</Typography>
-                </TableCell>
-              )}
-
-              <TableCell>
-                <Chip
-                  variant="outlined"
-                  color={
-                    user.status === 0
-                      ? 'success'
-                      : user.status === 1
-                      ? 'error'
-                      : 'warning'
-                  }
-                  label={
-                    user.status === 0
-                      ? statusLabels[0]
-                      : user.status === 1
-                      ? statusLabels[1]
-                      : statusLabels[2]
-                  }
+    <>
+      <StickyTableContainer>
+        <Table stickyHeader>
+          <TableHead>
+            <TableRow>
+              {headers.map((header, index) => (
+                <TableCell
+                  key={`header-${index}`}
                   sx={{
-                    '& span.MuiChip-label': {
-                      color: '#5F5F5F',
-                    },
+                    fontSize: '0.875rem',
+                    fontWeight: 600,
+                    color: '#667085',
+                    backgroundColor: 'background.paper',
+                    py: 2,
+                    '&:first-of-type': { pl: 3 },
+                    '&:last-of-type': { pr: 3 },
                   }}
-                />
-              </TableCell>
-
-              <TableCell sx={{ position: 'relative' }}>
-                <IconButton onClick={handleOpenUserMenu}>
-                  <MoreVertIcon sx={{ fill: '#CBCAD7' }} />
-                </IconButton>
-
-                <SettingsMenu
-                  anchorEl={anchorElUser}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}
-                  items={SettingsMenuitems}
-                />
-              </TableCell>
+                >
+                  {header}
+                </TableCell>
+              ))}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </StickyTableContainer>
+          </TableHead>
+
+          <TableBody sx={{ '& .MuiTableCell-root': { borderBottom: 'none' } }}>
+            {data.map((user) => (
+              <React.Fragment key={user.id}>
+                <TableRow>
+                  <TableCell>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                      <Avatar
+                        src={user.avatar || '/static/images/user-1.svg'}
+                        sx={{ width: 40, height: 40 }}
+                      />
+                      <Box>
+                        <Typography fontWeight={600}>
+                          {user.fullName}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {user.id}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </TableCell>
+
+                  <TableCell>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        maxWidth: '155px',
+                      }}
+                    >
+                      {user.email ?? 'Not Found'}
+                    </Typography>
+                  </TableCell>
+
+                  <TableCell>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        maxWidth: '155px',
+                      }}
+                    >
+                      {user.walletBalance ?? 'Not Found'}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        maxWidth: '155px',
+                      }}
+                    >
+                      {user.contractCount ?? 'Not Found'}
+                    </Typography>
+                  </TableCell>
+
+                  <TableCell>
+                    <Chip
+                      variant="outlined"
+                      color={
+                        user.status === 'approved'
+                          ? 'success'
+                          : user.status === 'pending'
+                          ? 'warning'
+                          : 'error'
+                      }
+                      label={user.status}
+                      sx={{
+                        '& span.MuiChip-label': {
+                          color: '#5F5F5F',
+                        },
+                      }}
+                    />
+                  </TableCell>
+
+                  <TableCell>
+                    <MoreVertIcon sx={{ fill: '#CBCAD7' }} />
+                  </TableCell>
+                </TableRow>
+              </React.Fragment>
+            ))}
+          </TableBody>
+        </Table>
+      </StickyTableContainer>
+    </>
   );
 };
 
