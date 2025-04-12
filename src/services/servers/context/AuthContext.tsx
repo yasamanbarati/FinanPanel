@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import { login as loginApi } from '@/services/servers/api/api.auth';
 import { useRouter } from 'next/router';
 
-interface User {
+export interface User {
   name: string;
   email: string;
   image: string;

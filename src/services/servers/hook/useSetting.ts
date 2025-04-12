@@ -1,4 +1,4 @@
-import { SettingContex } from '@/services/servers/context/setting-context';
 import { useContext } from 'react';
+import { SettingContext } from '../context/setting-context';
 
-export const useSetting = () => useContext(SettingContex);
+export const useSetting = () => useContext(SettingContext);

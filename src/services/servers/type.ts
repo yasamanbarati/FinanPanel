@@ -49,9 +49,9 @@ export interface UserListProps {
   fullName: string;
   email?: string | undefined;
   walletBalance?: string;
-  registerDate?: string;
-  lastLogin?: string;
-  status: number;
+  registerDate?: string | undefined;
+  lastLogin?: string | undefined;
+  status: number | string;
   avatar: string;
   contractCount?: number | string;
   action?: string;
@@ -62,18 +62,12 @@ export interface UserListProps {
   phone?: string;
   activeContracts?: number;
   completeContracts?: number;
-  // contractPlan?: {
-  //   icon: ReactElement | SvgIconProps | SVGRectElement | any;
-  //   title: string;
-  // };
-  // icon: ReactElement | SvgIconProps | SVGRectElement | any;
-  // title: string;
 }
 export interface UserContractProps {
-  id: string| number;
+  id: string | number;
   invoice?: string;
   imageSrc: string;
-  status: number; //0 or 1 or 2
+  status: number | string; //0 or 1 or 2
   title: string;
   time: number;
   amount: number;
