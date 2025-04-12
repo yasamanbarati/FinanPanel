@@ -14,9 +14,10 @@ import {
   InputAdornment,
   IconButton,
 } from '@mui/material';
-import CustomizeTable from '@/components/table';
-import { transactionsList } from '@/services/servers/mock';
+import { useQuery } from '@tanstack/react-query';
+import { getTransactions } from '@/services/servers/api/api.transactions';
 import { CalendarIcon, SearchIcon } from '@/components/icons';
+import TransactionListTable from './transaction-list-table';
 
 const SearchInput = styled(OutlinedInput)(({ theme }) => ({
   display: 'flex',
@@ -55,14 +56,17 @@ const PeriodSelect = styled(Button)(({ theme }) => ({
   width: 129,
   justifyContent: 'space-between',
   alignItems: 'center',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  maxWidth: '120px',
   '&:hover': {
     backgroundColor: theme.palette.action.hover,
   },
-  fontSize: '12px',
+  fontSize: '10px',
   fontStyle: 'normal',
   fontWeight: '600',
   lineHeight: '16.982px',
-  whiteSpace: 'nowrap',
   color: theme.palette.black.dark,
 }));
 
@@ -80,8 +84,35 @@ const TransactionList = () => {
   const [value, setValue] = useState(0);
   const [periodAnchor, setPeriodAnchor] = useState<null | HTMLElement>(null);
   const [searchText, setSearchText] = useState('');
-  const [page, setPage] = useState(1);
-  const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 13;
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['transactions', value, searchText, currentPage],
+    queryFn: () =>
+      getTransactions({
+        category:
+          value !== 0
+            ? ['Investment', 'Profits', 'Transfer', 'Deposit', 'Withdrawals'][
+                value - 1
+              ]?.toLowerCase()
+            : undefined,
+        phrase: searchText,
+      }),
+    staleTime: 5000,
+    refetchOnWindowFocus: false,
+  });
+
+  const serverData = useMemo(
+    () => data?.transactions?.data || [],
+    [data?.transactions?.data],
+  );
+
+  const totalPages = useMemo(
+    () => data?.transactions?.total || 1,
+    [data?.transactions?.total],
+  );
+  const current = data?.transactions?.current_page || 1;
 
   const transactionType = useMemo(() => {
     const types = [
@@ -95,29 +126,59 @@ const TransactionList = () => {
     return types[value] || 'All';
   }, [value]);
 
-  const filteredData = useMemo(() => {
-    if (transactionType === 'All') return transactionsList;
-    return transactionsList.filter((item) => item.type === transactionType);
+  const headers = useMemo(() => {
+    switch (transactionType) {
+      case 'Investment':
+        return [
+          'Full Name',
+          'Contract',
+          'Amount',
+          'Monthly Profit',
+          'Wallet Address',
+          'Status',
+          '',
+        ];
+      case 'Transfer':
+        return [
+          'Full Name',
+          'Transfer',
+          'Amount',
+          'Date',
+          'Wallet Address',
+          'Status',
+          '',
+        ];
+      default:
+        return [
+          'Full Name',
+          'Transaction Type',
+          'Amount',
+          'Date',
+          'Wallet Address',
+          'Status',
+          '',
+        ];
+    }
   }, [transactionType]);
-
-  const totalPages = useMemo(
-    () => Math.ceil(filteredData.length / itemsPerPage),
-    [filteredData.length],
-  );
+  const filteredData = useMemo(() => serverData, [serverData]);
 
   const paginatedData = useMemo(
-    () => filteredData.slice((page - 1) * itemsPerPage, page * itemsPerPage),
-    [filteredData, page],
+    () =>
+      filteredData.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage,
+      ),
+    [filteredData, currentPage, itemsPerPage],
   );
 
   const handlePageChange = useCallback(
-    (_: React.ChangeEvent<unknown>, value: number) => setPage(value),
+    (_: React.ChangeEvent<unknown>, value: number) => setCurrentPage(value),
     [],
   );
 
   const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
-    setPage(1);
+    setCurrentPage(current);
   };
 
   const handlePeriodOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -129,33 +190,73 @@ const TransactionList = () => {
   const handleSearchChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchText(event.target.value);
-      setPage(1);
+      setCurrentPage(1);
     },
     [],
   );
 
   return (
-    <Paper sx={{
-      borderRadius: 14,
-      boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
-      overflow: 'hidden',
-      width: '100%',
-      p: '24px',
-    }}>
+    <Paper
+      sx={{
+        borderRadius: 14,
+        boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
+        overflow: 'hidden',
+        width: '100%',
+        p: '24px',
+      }}
+    >
       <Box sx={{ p: 3, borderBottom: 1, borderColor: 'divider' }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 16 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: { xs: 'center', xl: 'space-between' },
+            mb: 16,
+            gap: 12,
+          }}
+        >
           <Tabs
             value={value}
             onChange={handleTabChange}
-            sx={{ '& .MuiTabs-indicator': { backgroundColor: '#53389e', height: 2 } }}
+            variant="scrollable"
+            scrollButtons="auto"
+            sx={{
+              maxWidth: '100%',
+              '& .MuiTabs-scroller': {
+                overflow: 'auto !important',
+                WebkitOverflowScrolling: 'touch',
+              },
+              '& .MuiTabs-flexContainer': {
+                flexWrap: 'nowrap',
+                whiteSpace: 'nowrap',
+                display: 'inline-flex',
+                minWidth: '100%',
+              },
+              touchAction: 'pan-x', // فعال کردن ژستهای لمسی
+              scrollbarWidth: 'none', // مخفی کردن اسکرولبار در فایرفاکس
+              '&::-webkit-scrollbar': {
+                display: 'none', // مخفی کردن اسکرولبار در مرورگرهای وبکیت
+              },
+            }}
           >
-            {['All', 'Investment', 'Profits', 'Transfer', 'Deposit', 'Withdrawals'].map(
-              (label, index) => (
-                <StyledTab key={label} label={label} value={index} />
-              ))}
+            {[
+              'All',
+              'Investment',
+              'Profits',
+              'Transfer',
+              'Deposit',
+              'Withdrawals',
+            ].map((label, index) => (
+              <StyledTab
+                key={label}
+                label={label}
+                value={index}
+                sx={{ minWidth: 'unset' }}
+              />
+            ))}
           </Tabs>
 
-          <Box sx={{ display: 'flex', gap: 4 }}>
+          <Box sx={{ display: 'flex', gap: 4, maxWidth: '100%' }}>
             <SearchInput
               placeholder="Search"
               startAdornment={
@@ -194,18 +295,9 @@ const TransactionList = () => {
         </Box>
 
         <div style={{ overflowX: 'auto' }}>
-          <CustomizeTable
-            headers={[
-              'Full Name',
-              'Transaction Type',
-              'Amount',
-              'Date',
-              'Wallet Address',
-              'Status',
-              '',
-            ]}
+          <TransactionListTable
+            headers={headers}
             data={paginatedData}
-            statusLabels={['Success', 'Failed', 'Pending']}
             transactionType={transactionType}
           />
         </div>
@@ -214,7 +306,7 @@ const TransactionList = () => {
           <Box sx={{ display: 'flex', justifyContent: 'center', py: 3 }}>
             <Pagination
               count={totalPages}
-              page={page}
+              page={currentPage}
               onChange={handlePageChange}
               renderItem={(item) => (
                 <PaginationItem
@@ -234,7 +326,6 @@ const TransactionList = () => {
         )}
       </Box>
     </Paper>
-
   );
 };
 
