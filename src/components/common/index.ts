@@ -4,7 +4,6 @@ export { OTPInput } from './OTPInput';
 // export { SearchBox } from './SearchBox';
 export { Icon } from './Icon';
 // export { DynamicForm } from './DynamicForm';
-export { DeleteDialog } from './DeleteDialog';
 // export { SearchList } from './SearchList';
 export { ImageUpload } from './ImageUpload';
 //types

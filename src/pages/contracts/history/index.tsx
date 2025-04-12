@@ -1,14 +1,12 @@
 import React from 'react';
-import Page from '@/components/Page';
-import MainLayout from '@/layout/mainLayout';
-import ContractHistory from '@/components/screen/contract/contractHistory';
+import MainLayout from '@/layout';
+import BreadcrumbSection from '@/layout/ breadcrumb';
 
 export default function ContractHistoryPage() {
   return (
     <MainLayout>
-      <Page title="Contract History">
-        <ContractHistory />
-      </Page>
+       <BreadcrumbSection disabledLink="Contract History"/>
+        <h1>a</h1>
     </MainLayout>
   );
 }

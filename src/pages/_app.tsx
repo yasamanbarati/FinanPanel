@@ -1,42 +1,86 @@
 import type { AppProps } from 'next/app';
-//mui theme provider
-import ThemeProvider from '@/theme';
-//react query provider
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-// notifactions provider
+import { QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
-//redux provider
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import ThemeProvider from '@/setup/theme';
+import queryClient from '@/services/utils/react-query';
 
-// css
-// import '@/styles/globals.css';
-// import '@fontsource/roboto/300.css';
-// import '@fontsource/roboto/400.css';
-// import '@fontsource/roboto/500.css';
-// import '@fontsource/roboto/700.css';
+import { AuthProvider, useAuth } from '@/services/servers/context/AuthContext';
+import '@/setup/styles/globals.css';
+import { LoadingPage } from '@/components/loding/loading-page';
 
-// css
-import '@/styles/globals.css';
-// import SettingProvider from '@/context/setting-context';
-//============================================================//
-export default function App({ Component, pageProps }: AppProps) {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        refetchOnMount: false, // غیرفعال کردن ریکوست در اولین رندر
-        refetchOnWindowFocus: false, // غیرفعال کردن ریکوست در تغییر فوکوس پنجره
-        retry: false,
-      },
-    },
-  }); //
+function AppContent({ Component, pageProps }: Omit<AppProps, 'router'>) {
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    const allowedPaths = [
+      '/login',
+      '/forgot-password',
+      '/create-forgot-password',
+      '/verify-password',
+    ];
+
+    if (user === null) {
+      setIsLoading(true);
+      return;
+    }
+
+    if (user === 'logOut') {
+      if (!allowedPaths.includes(router.pathname)) {
+        router.push('/login');
+      } else {
+        setIsLoading(false);
+      }
+    } else {
+      if (allowedPaths.includes(router.pathname)) {
+        router.push('/');
+      } else {
+        setIsLoading(false);
+      }
+    }
+  }, [user, router]);
 
   return (
-    // <SettingProvider>
+    <ThemeProvider>
+      {isLoading ? (
+        <LoadingPage />
+      ) : (
+        <>
+          <Toaster
+            position="bottom-right"
+            reverseOrder={false}
+            toastOptions={{
+              success: {
+                style: {
+                  background: '#4caf50',
+                  color: '#fff',
+                },
+              },
+              error: {
+                style: {
+                  background: '#f44336',
+                  color: '#fff',
+                },
+              },
+            }}
+          />
+
+          <Component {...pageProps} />
+        </>
+      )}
+    </ThemeProvider>
+  );
+}
+
+export default function App({ Component, pageProps }: AppProps) {
+  return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <Toaster position="bottom-right" reverseOrder={false} />
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <AuthProvider>
+        <AppContent Component={Component} pageProps={pageProps} />
+      </AuthProvider>
     </QueryClientProvider>
-    // </SettingProvider>
   );
 }
