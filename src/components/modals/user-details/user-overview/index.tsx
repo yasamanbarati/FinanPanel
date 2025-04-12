@@ -1,3 +1,4 @@
+import { formatDate } from '@/services/utils/time';
 import { Grid, Typography } from '@mui/material';
 import React from 'react';
 
@@ -8,7 +9,7 @@ interface Props {
     lastLogin: string;
     phone: string;
     wallet: string;
-    walletBalance: string;
+    walletBalance: number;
     activeContracts: number;
     completeContracts: number;
   };
@@ -43,7 +44,7 @@ const UserOverView = ({ Data }: Props) => {
               >
                 Register Date
               </Typography>
-              <Typography variant="body2">{Data.registerDate}</Typography>
+              <Typography variant="body2">{formatDate(Data.registerDate)}</Typography>
             </Grid>
             <Grid item xs={4} display="flex" flexDirection="column" gap={4}>
               <Typography
@@ -52,7 +53,7 @@ const UserOverView = ({ Data }: Props) => {
               >
                 Last Login
               </Typography>
-              <Typography variant="body2">{Data.lastLogin}</Typography>
+              <Typography variant="body2">{formatDate(Data.lastLogin)}</Typography>
             </Grid>
           </Grid>
           <Grid item container xs={12} alignItems="center">

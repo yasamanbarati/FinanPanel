@@ -13,9 +13,11 @@ const UserContracts = ({ data, statusLabels }: Props) => {
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     setIsScrolled(e.currentTarget.scrollTop > 5);
   };
-  const getStatusColor = (status: number) => {
+  const getStatusColor = (status: string | number) => {
     const statusColors = ['success', 'warning', 'error'];
-    return statusColors[status] || 'error';
+    const numericStatus =
+      typeof status === 'string' ? parseInt(status) : status;
+    return statusColors[numericStatus] || 'error';
   };
   return (
     <Box
@@ -116,13 +118,14 @@ const UserContracts = ({ data, statusLabels }: Props) => {
                 <Chip
                   variant="outlined"
                   color={getStatusColor(item.status) as any}
-                  label={statusLabels[item.status] || 'Unknown'}
+                  label={statusLabels[Number(item.status)] || 'Unknown'}
                   sx={{
                     '& .MuiChip-label': {
                       color: 'rgba(95, 95, 95, 1)',
-                      fontSize: '0.75rem', //12
+                      fontSize: '0.75rem',
                       fontWeight: '600',
                       padding: 0,
+                      textOverflow: 'unset',
                     },
                   }}
                 />

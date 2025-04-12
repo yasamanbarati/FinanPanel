@@ -7,9 +7,7 @@ import {
   styled,
   Tabs,
   Tab,
-  useTheme,
   Chip,
-  ChipProps,
 } from '@mui/material';
 import { Close } from '@mui/icons-material';
 import BasicModal from '..';
@@ -34,23 +32,17 @@ const StyledTab = styled(Tab)(({ theme }) => ({
     borderColor: 'transparent',
   },
 }));
-enum UserStatus {
-  Active = 0,
-  Pending = 1,
-  Suspended = 2,
-}
-
 interface UserData {
   userId: string;
   name: string;
-  status?: UserStatus;
+  status?: number | string;
   avatar: string;
   email: string;
   registerDate: string;
   lastLogin: string;
   phone: string;
   wallet: string;
-  walletBalance: string;
+  walletBalance: number;
   activeContracts: number;
   completeContracts: number;
 }
@@ -61,16 +53,16 @@ interface UserDetailsModalProps {
   data?: UserData;
 }
 const DEFAULT_USER_DATA: UserData = {
-  userId: '#LM24859',
+  userId: '24859',
   name: 'Sofia Miller',
-  status: UserStatus.Active,
+  status: 'approved',
   avatar: '/static/images/user-4.svg',
   email: 'Sofiamiller12@gmail.com',
   registerDate: '10/10/2024',
   lastLogin: '10/10/2024 - 20:50:32',
   phone: '+1 - 247 589 0214',
   wallet: '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa',
-  walletBalance: '$500,000',
+  walletBalance: 500,
   activeContracts: 7,
   completeContracts: 5,
 };
@@ -80,7 +72,6 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
   onClose,
   data,
 }) => {
-  const theme = useTheme();
   const [activeTab, setActiveTab] = useState(0);
 
   const userData = useMemo(
@@ -90,24 +81,6 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
     }),
     [data],
   );
-
-  const getStatusConfig = (
-    status?: UserStatus,
-  ): {
-    color: ChipProps['color'];
-    label: string;
-  } => {
-    switch (status) {
-      case UserStatus.Active:
-        return { color: 'success', label: 'Active' };
-      case UserStatus.Pending:
-        return { color: 'error', label: 'Failed' };
-      case UserStatus.Suspended:
-        return { color: 'warning', label: 'Pending' };
-      default:
-        return { color: 'default', label: 'Unknown' };
-    }
-  };
   const modalContent = useMemo(() => {
     switch (activeTab) {
       case 0:
@@ -191,12 +164,20 @@ const UserDetailsModal: React.FC<UserDetailsModalProps> = ({
         <Grid item>
           <Chip
             variant="outlined"
-            {...getStatusConfig(userData.status)}
+            color={
+              userData.status === 'approved'
+                ? 'success'
+                : userData.status === 'pending'
+                ? 'warning'
+                : 'error'
+            }
+            label={userData.status}
             sx={{
               '& .MuiChip-label': {
                 fontSize: '0.75rem',
                 fontWeight: 600,
                 px: 0.5,
+                textOverflow: 'unset',
               },
             }}
           />
