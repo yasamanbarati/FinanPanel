@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Box, Button, Grid, styled, Typography } from '@mui/material';
 import AuthLayout from '@/components/auth/AuthLayout';
-import CustomizeTextField from '@/components/form-field/text-field';
 import { useRouter } from 'next/router';
 
 const validateEmail = (email: string) => {

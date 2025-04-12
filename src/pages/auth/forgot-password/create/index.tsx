@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
 import { Grid, Typography, Button, styled, Box } from '@mui/material';
-import AuthLayout from '@/components/auth/AuthLayout';
 import CustomizeTextField from '@/components/form-field/text-field';
 import { useRouter } from 'next/router';
+import AuthLayout from '@/components/auth/AuthLayout';
 
 const RightPanel = styled(Grid)(({ theme }) => ({
   height: '100vh',
