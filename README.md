@@ -8,7 +8,7 @@ FinancialPanel is a panel for managing and reviewing cryptocurrency contracts an
 6. Sign-up 
     
 demo Link
-  - financial-lilac.vercel.app
+  - https://financial-lilac.vercel.app
   - https://finan-panel.vercel.app/
 
 package manager
